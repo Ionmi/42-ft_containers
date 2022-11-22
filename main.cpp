@@ -1,4 +1,31 @@
+#include "includes/vector.hpp"
+
 #include <iostream>
+// #include <vector>
+// #include <memory>
+int main()
+{
+	// ft::vector<int> myvector(55, 10);
+
+	// std::cout << "size: " << (int)myvector.size() << '\n';
+	// std::cout << "capacity: " << (int)myvector.capacity() << '\n';
+	// std::cout << "max_size: " << (unsigned int)myvector.max_size() << '\n';
+
+	return 0;
+}
+//operaotrs
+// {
+// 	std::vector<int> myvector(1, 1);
+// 	std::vector<int> myvector2(5, 5);
+// 	cout << "==: " << (myvector == myvector2) << '\n';
+// }
+// {
+// 	ft::vector<int> myvector(1, 1);
+// 	ft::vector<int> myvector2(5, 5);
+// 	cout << "==: " << (myvector == myvector2) << '\n';
+// }
+
+/*#include <iostream>
 #include <string>
 #include <deque>
 #if 1 // CREATE A REAL STL EXAMPLE
@@ -114,3 +141,4 @@ int main(int argc, char **argv)
 	std::cout << std::endl;
 	return (0);
 }
+*/
