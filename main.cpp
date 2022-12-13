@@ -5,25 +5,41 @@
 // #include <memory>
 int main()
 {
-	// ft::vector<int> myvector(55, 10);
+	// std::vector<int> myvector(3, 3);
+	{
+		std::vector<int> myvector2;
+		for (size_t i = 0; i < 5; i++)
+			myvector2.push_back(i + 1);
 
-	// std::cout << "size: " << (int)myvector.size() << '\n';
-	// std::cout << "capacity: " << (int)myvector.capacity() << '\n';
-	// std::cout << "max_size: " << (unsigned int)myvector.max_size() << '\n';
+		std::vector<int>::iterator it = myvector2.begin();
+		cout << "it: " << *(it + 4) << "\n";
+	}
+	ft::vector<int> myvector2;
+	for (size_t i = 0; i < 5; i++)
+		myvector2.push_back(i + 1);
+
+	ft::vector<int>::iterator it;// = myvector2.begin();
+	// cout << "it: " << *(it + 4) << "\n";
+	// std::vector<int>::iterator it2;
+
+	// for (it = myvector.begin(); it != myvector.end(); it += 1)
+	// 	cout << "it: " << *it << "\n";
+	// for (it2 = myvector.begin() + 1; it2 != myvector.end(); ++it2)
+	// 	cout << "it2: " << *it2 << "\n";
 
 	return 0;
 }
-//operaotrs
-// {
-// 	std::vector<int> myvector(1, 1);
-// 	std::vector<int> myvector2(5, 5);
-// 	cout << "==: " << (myvector == myvector2) << '\n';
-// }
-// {
-// 	ft::vector<int> myvector(1, 1);
-// 	ft::vector<int> myvector2(5, 5);
-// 	cout << "==: " << (myvector == myvector2) << '\n';
-// }
+// operaotrs
+//  {
+//  	std::vector<int> myvector(1, 1);
+//  	std::vector<int> myvector2(5, 5);
+//  	cout << "==: " << (myvector == myvector2) << '\n';
+//  }
+//  {
+//  	ft::vector<int> myvector(1, 1);
+//  	ft::vector<int> myvector2(5, 5);
+//  	cout << "==: " << (myvector == myvector2) << '\n';
+//  }
 
 /*#include <iostream>
 #include <string>

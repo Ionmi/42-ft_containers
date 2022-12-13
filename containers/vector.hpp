@@ -7,58 +7,78 @@
 
 using std::cout;
 
+template <typename vector, >
+class RandomAccessIterator
+{
+public:
+	typedef typename vector::value_type value_type;
+	typedef typename value_type::difference_type difference_type;
+	typedef typename value_type::pointer pointer;
+	typedef typename value_type::reference reference;
+
+private:
+	pointer ptr;
+
+public:
+	RandomAccessIterator(){};
+	// RandomAccessIterator(pointer ptr) : ptr(ptr){};
+	// RandomAccessIterator(RandomAccessIterator &ref) : ptr(ref.ptr){};
+	// RandomAccessIterator &operator=(const RandomAccessIterator &ref)
+	// {
+	// 	ptr = ref.ptr;
+	// 	return *this;
+	// };
+	// virtual ~RandomAccessIterator(){};
+
+	// // OPERATORS
+	// bool operator==(const RandomAccessIterator &rhs) const { return ptr == rhs.ptr; }
+	// bool operator!=(const RandomAccessIterator &rhs) const { return ptr != rhs.ptr; }
+	// RandomAccessIterator &operator++()
+	// {
+	// 	++ptr;
+	// 	return *this;
+	// }
+	// RandomAccessIterator &operator++(int)
+	// {
+	// 	RandomAccessIterator it = *this;
+	// 	++ptr;
+	// 	return it;
+	// }
+	// RandomAccessIterator &operator--()
+	// {
+	// 	--ptr;
+	// 	return *this;
+	// }
+	// RandomAccessIterator &operator--(int)
+	// {
+	// 	RandomAccessIterator it = *this;
+	// 	--ptr;
+	// 	return it;
+	// }
+	// reference operator*() const { return *ptr; }
+	// pointer operator->() const { return ptr; }
+	// RandomAccessIterator operator+(const difference_type n) const { return ptr + n; }
+	// RandomAccessIterator operator-(const difference_type n) const { return ptr - n; }
+	// RandomAccessIterator operator+(RandomAccessIterator const &it) const { return ptr + it; }
+	// RandomAccessIterator operator-(RandomAccessIterator const &it) const { return ptr - it; }
+	// RandomAccessIterator operator+=(const difference_type n) const
+	// {
+	// 	ptr += n;
+	// 	return *this;
+	// }
+	// RandomAccessIterator operator-=(const difference_type n) const
+	// {
+	// 	ptr -= n;
+	// 	return *this;
+	// }
+	// reference operator[](int i) const { return *(ptr + i); }
+};
+
 namespace ft
 {
-	template <class T, class Allocator = std::allocator<T> >
+	template <class T, class Allocator = std::allocator<T>>
 	class vector
 	{
-		template <typename vector>
-		class RandomAccessIterator
-		{
-		public:
-			typedef typename vector::value_type value_type;
-			typedef typename value_type::difference_type difference_type;
-			typedef typename value_type::pointer pointer;
-			typedef typename value_type::reference reference;
-
-		private:
-			pointer ptr;
-
-		public:
-			RandomAccessIterator(){};
-			RandomAccessIterator(pointer ptr) : ptr(ptr){};
-			RandomAccessIterator(RandomAccessIterator &ref) : ptr(ref.ptr){};
-			RandomAccessIterator &operator=(const RandomAccessIterator &ref)
-			{
-				ptr = ref.ptr;
-				return *this;
-			};
-			virtual ~RandomAccessIterator(){};
-
-			//OPERATORS
-			RandomAccessIterator &operator++()
-			{
-				++ptr;
-				return *this; 
-			};
-			RandomAccessIterator &operator++(int)
-			{
-				RandomAccessIterator it = *this;
-				++ptr;
-				return it;
-			};
-			RandomAccessIterator &operator--()
-			{
-				--ptr;
-				return *this;
-			};
-			RandomAccessIterator &operator--(int)
-			{
-				RandomAccessIterator it = *this;
-				--ptr;
-				return it;
-			};
-		};
 
 	public:
 		typedef T value_type;
@@ -71,8 +91,8 @@ namespace ft
 		typedef typename allocator_type::const_pointer const_pointer;
 		typedef RandomAccessIterator<value_type> iterator;
 		typedef RandomAccessIterator<const value_type> const_iterator;
-		typedef reverse_iterator<iterator> reverse_iterator;
-		typedef reverse_iterator<const_iterator> const_reverse_iterator;
+		typedef std::reverse_iterator<iterator> reverse_iterator;
+		typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
 
 	private:
 		pointer _first;
@@ -85,7 +105,6 @@ namespace ft
 		{
 			set_max_size();
 		}
-
 		// (2) fill constructor -> Constructs a container with n elements. Each element is a copy of val.
 		explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
 			: _size(n), _capacity(n), allocator(alloc)
@@ -95,7 +114,6 @@ namespace ft
 			for (size_type i = 0; i < _size; i++)
 				allocator.construct(_first + i, val);
 		}
-
 		// (3) range constructor -> Constructs a container with as many elements as the range [first,last), with each element constructed from its corresponding element in that range, in the same order.
 		template <class InputIterator>
 		vector(typename InputIterator::type first, typename InputIterator::type last, const allocator_type &alloc = allocator_type()) : allocator(alloc)
@@ -109,13 +127,11 @@ namespace ft
 			for (difference_type i = 0; i < static_cast<difference_type>(_size); i++)
 				allocator.construct(_first + i, *(first + i));
 		}
-
 		// (4) copy constructor -> Constructs a container with a copy of each of the elements in x, in the same order.
 		vector(const vector &x) : _size(0), _capacity(0)
 		{
 			*this = x;
 		}
-
 		// assing operator -> Assigns new contents to the container, replacing its current contents, and modifying its size accordingly.
 		vector &operator=(const vector &x)
 		{
@@ -137,7 +153,6 @@ namespace ft
 				allocator.construct(_first + i, *(x + i));
 			return *this;
 		}
-
 		// destructor -> This destroys all container elements, and deallocates all the storage capacity allocated by the vector using its allocator.
 		~vector() { deallocate(); }
 
@@ -173,6 +188,24 @@ namespace ft
 		void set_max_size() { _max_size = allocator.max_size(); };
 
 	public:
+		// ITERATORS
+		iterator begin()
+		{
+			return iterator(_first);
+		}
+		const_iterator begin() const
+		{
+			return const_iterator(_first);
+		}
+		iterator end()
+		{
+			return iterator(_first + _size);
+		}
+		const_iterator end() const
+		{
+			return const_iterator(_first + _size);
+		}
+
 		// CAPACITY
 		size_type size() const { return _size; };
 		size_type max_size() const { return _max_size; };
