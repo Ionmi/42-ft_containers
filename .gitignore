@@ -1,0 +1,4 @@
+.vscode
+settings.json
+*.o
+ft_containers

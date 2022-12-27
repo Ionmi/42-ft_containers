@@ -1,32 +1,26 @@
-#include "includes/vector.hpp"
+#include "includes/containers/vector.hpp"
 
 #include <iostream>
-// #include <vector>
+#include <vector>
 // #include <memory>
 int main()
 {
-	// std::vector<int> myvector(3, 3);
+
 	{
-		std::vector<int> myvector2;
-		for (size_t i = 0; i < 5; i++)
-			myvector2.push_back(i + 1);
+		std::vector<int> vec;
+		for (size_t i = 0; i < 10; i++)
+			vec.push_back(i);
 
-		std::vector<int>::iterator it = myvector2.begin();
-		cout << "it: " << *(it + 4) << "\n";
+		for (std::vector<int>::reverse_iterator it = vec.rbegin() + 1; it != vec.rend(); it+=1)
+			cout << *it << "\n";
 	}
-	ft::vector<int> myvector2;
-	for (size_t i = 0; i < 5; i++)
-		myvector2.push_back(i + 1);
+		cout << "----------------------------------------------------\n";
+		ft::vector<int> vec;
+		for (size_t i = 0; i < 10; i++)
+			vec.push_back(i);
 
-	ft::vector<int>::iterator it;// = myvector2.begin();
-	// cout << "it: " << *(it + 4) << "\n";
-	// std::vector<int>::iterator it2;
-
-	// for (it = myvector.begin(); it != myvector.end(); it += 1)
-	// 	cout << "it: " << *it << "\n";
-	// for (it2 = myvector.begin() + 1; it2 != myvector.end(); ++it2)
-	// 	cout << "it2: " << *it2 << "\n";
-
+		for (ft::vector<int>::reverse_iterator it = vec.rbegin() + 1; it != vec.rend(); it+=1)
+			cout << *it << "\n";
 	return 0;
 }
 // operaotrs

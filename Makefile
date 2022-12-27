@@ -1,6 +1,6 @@
-SRCS	= 	main.cpp					\
+SRCS	= 	main.cpp			\
 
-INCLUDES	= 	includes/vector.hpp		\
+INCLUDES	= includes
 
 OBJS	= ${SRCS:.cpp=.o}
 
@@ -10,7 +10,7 @@ SNAME	= ft_containers_fs
 
 RM		= rm -rf
 
-CC		= clang++
+CXX		= clang++
 
 RED		= \033[0;31m
 
@@ -34,14 +34,14 @@ s: $(SNAME)
 
 $(NAME) : $(OBJS) $(INCLUDES)
 			echo "$(RED)Compiling...			⏳$(WHITE)"
-			$(CC) ${CPPFLAGS} $(OBJS) -o $(NAME) -I $(INCLUDES)
+			$(CXX) ${CPPFLAGS} $(OBJS) -o $(NAME) -I $(INCLUDES)
 
 $(SNAME) : $(OBJS) $(INCLUDES)
 			echo "$(RED)Compiling with sanitizer...	⏳$(WHITE)"
-			$(CC) ${CPPFLAGS} ${SFLAGS} $(OBJS) -o $(SNAME) -I $(INCLUDES)
+			$(CXX) ${CPPFLAGS} ${SFLAGS} $(OBJS) -o $(SNAME) -I $(INCLUDES)
 
 %.o : %.cpp
-	$(CC) ${CPPFLAGS} -c $< -o $@
+	$(CXX) ${CPPFLAGS} -c $< -o $@
 	
 clean:
 		echo "$(RED)Clean in progress...		⏳$(WHITE)"
@@ -59,4 +59,7 @@ fclean:
 
 re:		fclean all
 
-.PHONY: all clean fclean re
+run: 
+	./ft_containers
+
+.PHONY: all clean fclean re run

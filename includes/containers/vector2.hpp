@@ -30,7 +30,7 @@ namespace ft
 
 		public:
 			// CONSTRUCTORS
-			RandomAccessIterator() : _ptr() {}
+			RandomAccessIterator() : _ptr(nullptr) {}
 
 			RandomAccessIterator(pointer a) : _ptr(a) {}
 
