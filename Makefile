@@ -6,7 +6,7 @@ OBJS	= ${SRCS:.cpp=.o}
 
 NAME	= ft_containers
 
-SNAME	= ft_containers_fs
+NSNAME	= ft_containers_ns
 
 RM		= rm -rf
 
@@ -18,27 +18,27 @@ GREEN	= \033[0;32m
 
 WHITE	= \033[0;37m
 
-CPPFLAGS	= -Wall -Werror -Wextra -std=c++98 -fsanitize=address -g3
+CPPFLAGS	= -Wall -Werror -Wextra -std=c++98
 
 SFLAGS	= -fsanitize=address -g3
 
 .SILENT:
 
 all: $(NAME)
-		$(RM) $(SNAME)
+		$(RM) $(NSNAME)
 		echo "$(GREEN)Compiled			✅$(WHITE)"
 
-s: $(SNAME)
+ns: $(NSNAME)
 		$(RM) $(NAME)
-		echo "$(GREEN)Compiled with sanitizer...	✅$(WHITE)"
+		echo "$(GREEN)Compiled without sanitizer...	✅$(WHITE)"
 
 $(NAME) : $(OBJS) $(INCLUDES)
 			echo "$(RED)Compiling...			⏳$(WHITE)"
-			$(CXX) ${CPPFLAGS} $(OBJS) -o $(NAME) -I $(INCLUDES)
+			$(CXX) ${CPPFLAGS} ${SFLAGS} $(OBJS) -o $(NAME) -I $(INCLUDES)
 
-$(SNAME) : $(OBJS) $(INCLUDES)
-			echo "$(RED)Compiling with sanitizer...	⏳$(WHITE)"
-			$(CXX) ${CPPFLAGS} ${SFLAGS} $(OBJS) -o $(SNAME) -I $(INCLUDES)
+$(NSNAME) : $(OBJS) $(INCLUDES)
+			echo "$(RED)Compiling without sanitizer...	⏳$(WHITE)"
+			$(CXX) ${CPPFLAGS} $(OBJS) -o $(NSNAME) -I $(INCLUDES)
 
 %.o : %.cpp
 	$(CXX) ${CPPFLAGS} -c $< -o $@
@@ -61,5 +61,8 @@ re:		fclean all
 
 run: 
 	./ft_containers
+
+leaks: 
+	valgrind --leak-check=full ./ft_containers_ns
 
 .PHONY: all clean fclean re run

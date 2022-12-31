@@ -1,26 +1,44 @@
 #include "includes/containers/vector.hpp"
+#include "includes/containers/stack.hpp"
+#include "includes/containers/map.hpp"
+#include "includes/RedBlackTree.hpp"
 
 #include <iostream>
 #include <vector>
+#include <map>
 // #include <memory>
+using namespace ft::rbt;
+using namespace std;
+
+// reinterpret_cast<uintptr_t>(ptr);
+// reinterpret_cast<Data *>(raw);
+
 int main()
 {
+	RBT<int, std::less<int> > tree;
 
-	{
-		std::vector<int> vec;
-		for (size_t i = 0; i < 10; i++)
-			vec.push_back(i);
-
-		for (std::vector<int>::reverse_iterator it = vec.rbegin() + 1; it != vec.rend(); it+=1)
-			cout << *it << "\n";
-	}
-		cout << "----------------------------------------------------\n";
-		ft::vector<int> vec;
-		for (size_t i = 0; i < 10; i++)
-			vec.push_back(i);
-
-		for (ft::vector<int>::reverse_iterator it = vec.rbegin() + 1; it != vec.rend(); it+=1)
-			cout << *it << "\n";
+	typedef pair<int, string> mypair;
+	mypair mipair(1, "holaaa");
+	
+	tree.insertNode(0);
+	tree.insertNode(1, reinterpret_cast<uintptr_t>(&mipair));
+	tree.insertNode(2);
+	tree.insertNode(3);
+	tree.insertNode(4);
+	tree.insertNode(5);
+	tree.insertNode(6);
+	tree.insertNode(7);
+	tree.insertNode(8);
+	// tree.printTree();
+	// cout << "-------------------------------------\n";
+	tree.insertNode(5);
+	tree.printTree();
+	uintptr_t hey = tree.findNode(1);
+	if(hey == 0)
+		return 0;
+	mypair hola = *reinterpret_cast<mypair *>(hey);
+	cout << "first:" << hola.first << " second:" << hola.second << "\n";
+		
 	return 0;
 }
 // operaotrs
