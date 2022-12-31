@@ -65,19 +65,19 @@ namespace ft
 			~RBT();
 
 			void printTree();
-			void insertNode(const Key, uintptr_t data = 0);
-			uintptr_t findNode(Key);
-			void deleteNode(const Key);
+			void insert(const Key, uintptr_t data = 0);
+			uintptr_t find(Key);
+			void remove(const Key);
 
 		private:
-			void insert(pointer, pointer &, const Key, uintptr_t);
-			pointer find(pointer, Key);
+			void insertNode(pointer, pointer &, const Key, uintptr_t);
+			pointer findNode(pointer, Key);
 			void printHelper(pointer &, int);
 			void leftRotate(pointer);
 			void rightRotate(pointer);
 			void insertFix(pointer);
 			void deleteTree(pointer);
-
+			void dealocateNode(pointer);
 		}; // class RBT
 
 		// PUBLIC
@@ -97,7 +97,7 @@ namespace ft
 		}
 
 		template <class Key, class Compare>
-		void RBT<Key, Compare>::insertNode(const Key key, uintptr_t data)
+		void RBT<Key, Compare>::insert(const Key key, uintptr_t data)
 		{
 			if (root == NIL)
 			{
@@ -105,27 +105,41 @@ namespace ft
 				root->color = BLACK;
 				return;
 			}
-			insert(nullptr, root, key, data);
+			insertNode(nullptr, root, key, data);
 		}
 
 		template <class Key, class Compare>
-		uintptr_t RBT<Key, Compare>::findNode(Key key)
+		uintptr_t RBT<Key, Compare>::find(Key key)
 		{
-			pointer found = find(root, key);
+			pointer found = findNode(root, key);
 			return found != nullptr ? found->data : 0;
 		}
 
 		template <class Key, class Compare>
-		void RBT<Key, Compare>::deleteNode(const Key key)
+		void RBT<Key, Compare>::remove(const Key key)
 		{
-			pointer found = find(root, key);
-			if(found == nullptr)
+			pointer found = findNode(root, key);
+			if (found == nullptr)
 				return;
+			if (found->color == RED && found->left == NIL && found->right == NIL)
+			{
+				found->parent->left == found
+					? found->parent->left = NIL
+					: found->parent->right = NIL;
+				dealocateNode(found);
+				return;
+			}
+			if (found == root && root->left == NIL && root->right == NIL)
+			{
+				dealocateNode(found);
+				root = nullptr;
+				return;
+			}
 		}
 
 		// PRIVATE
 		template <class Key, class Compare>
-		void RBT<Key, Compare>::insert(pointer parent, pointer &node, const Key key, uintptr_t data)
+		void RBT<Key, Compare>::insertNode(pointer parent, pointer &node, const Key key, uintptr_t data)
 		{
 			if (node == NIL)
 			{
@@ -136,12 +150,12 @@ namespace ft
 				return;
 			}
 			compare(key, node->key)
-				? insert(node, node->left, key, data)
-				: insert(node, node->right, key, data);
+				? insertNode(node, node->left, key, data)
+				: insertNode(node, node->right, key, data);
 		}
 
 		template <class Key, class Compare>
-		RBnode<Key> *RBT<Key, Compare>::find(pointer node, Key key)
+		RBnode<Key> *RBT<Key, Compare>::findNode(pointer node, Key key)
 		{
 			if (node == NIL)
 				return node;
@@ -150,9 +164,9 @@ namespace ft
 				return node;
 
 			if (key < node->key)
-				return find(node->left, key);
+				return findNode(node->left, key);
 
-			return find(node->right, key);
+			return findNode(node->right, key);
 		}
 
 		template <class Key, class Compare>
@@ -278,6 +292,12 @@ namespace ft
 			deleteTree(node->left);
 			deleteTree(node->right);
 
+			dealocateNode(node);
+		}
+
+		template <class Key, class Compare>
+		void RBT<Key, Compare>::dealocateNode(pointer node)
+		{
 			allocator.destroy(node);
 			allocator.deallocate(node, 1);
 		}

@@ -20,24 +20,23 @@ int main()
 	typedef pair<int, string> mypair;
 	mypair mipair(1, "holaaa");
 	
-	tree.insertNode(0);
-	tree.insertNode(1, reinterpret_cast<uintptr_t>(&mipair));
-	tree.insertNode(2);
-	tree.insertNode(3);
-	tree.insertNode(4);
-	tree.insertNode(5);
-	tree.insertNode(6);
-	tree.insertNode(7);
-	tree.insertNode(8);
-	// tree.printTree();
-	// cout << "-------------------------------------\n";
-	tree.insertNode(5);
+	tree.insert(0);
+	tree.insert(1, reinterpret_cast<uintptr_t>(&mipair));
+	tree.insert(2);
+	// tree.insert(3);
+	// tree.insert(4);
+	// tree.insert(5);
+	// tree.insert(6);
+	// tree.insert(7);
+	// tree.insert(8);
+	// // tree.printTree();
+	// // cout << "-------------------------------------\n";
+	// tree.insert(5);
 	tree.printTree();
-	uintptr_t hey = tree.findNode(1);
-	if(hey == 0)
-		return 0;
-	mypair hola = *reinterpret_cast<mypair *>(hey);
-	cout << "first:" << hola.first << " second:" << hola.second << "\n";
+	tree.remove(2);
+	tree.remove(0);
+	tree.remove(1);
+	tree.printTree();
 		
 	return 0;
 }
