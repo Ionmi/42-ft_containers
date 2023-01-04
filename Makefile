@@ -28,7 +28,7 @@ all: $(NAME)
 		$(RM) $(NSNAME)
 		echo "$(GREEN)Compiled			✅$(WHITE)"
 
-ns: $(NSNAME)
+ns: fclean $(NSNAME)
 		$(RM) $(NAME)
 		echo "$(GREEN)Compiled without sanitizer...	✅$(WHITE)"
 

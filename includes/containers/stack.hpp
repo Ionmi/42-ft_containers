@@ -8,6 +8,7 @@ namespace ft
 	template <class T, class Container = ft::vector<T> >
 	class stack
 	{
+	protected:
 		Container container;
 
 	public:
@@ -19,7 +20,7 @@ namespace ft
 
 		stack(const container_type &ctnr = container_type()) : container(ctnr){};
 		stack(const stack &other) : container(other.container){};
-		stack &operator=(const stack &other){container = other.container; };
+		stack &operator=(const stack &other) { container = other.container; };
 		~stack(){};
 
 		// ELEMENT ACCESS

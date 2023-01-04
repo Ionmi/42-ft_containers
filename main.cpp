@@ -7,7 +7,6 @@
 #include <vector>
 #include <map>
 // #include <memory>
-using namespace ft::rbt;
 using namespace std;
 
 // reinterpret_cast<uintptr_t>(ptr);
@@ -15,43 +14,12 @@ using namespace std;
 
 int main()
 {
-	RBT<int, std::less<int> > tree;
+	ft::map<int, int> hola;
+	hola[1] = 1;
 
-	typedef pair<int, string> mypair;
-	mypair mipair(1, "holaaa");
-	
-	tree.insert(0);
-	tree.insert(1, reinterpret_cast<uintptr_t>(&mipair));
-	tree.insert(2);
-	// tree.insert(3);
-	// tree.insert(4);
-	// tree.insert(5);
-	// tree.insert(6);
-	// tree.insert(7);
-	// tree.insert(8);
-	// // tree.printTree();
-	// // cout << "-------------------------------------\n";
-	// tree.insert(5);
-	tree.printTree();
-	tree.remove(2);
-	tree.remove(0);
-	tree.remove(1);
-	tree.printTree();
-		
+	cout << hola[1] << endl;
 	return 0;
 }
-// operaotrs
-//  {
-//  	std::vector<int> myvector(1, 1);
-//  	std::vector<int> myvector2(5, 5);
-//  	cout << "==: " << (myvector == myvector2) << '\n';
-//  }
-//  {
-//  	ft::vector<int> myvector(1, 1);
-//  	ft::vector<int> myvector2(5, 5);
-//  	cout << "==: " << (myvector == myvector2) << '\n';
-//  }
-
 /*#include <iostream>
 #include <string>
 #include <deque>
