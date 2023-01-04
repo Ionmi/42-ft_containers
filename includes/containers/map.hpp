@@ -86,13 +86,10 @@ namespace ft
 
 		// ELEMENT ACCESS
 		mapped_type& at (const key_type& k);
-		
+
 		const mapped_type& at (const key_type& k) const;
 
-		mapped_type &operator[](const key_type &k)
-		{
-			return reinterpret_cast<mapped_type>(rbTree.find(k));
-		}
+		mapped_type &operator[](const key_type &k);
 		// MODIFIERS
 		// single element (1)
 		// pair<iterator, bool> insert(const value_type &val)

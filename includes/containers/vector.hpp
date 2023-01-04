@@ -4,7 +4,8 @@
 #include <memory>
 #include <iostream>
 // #include <vector>
-#include "../iterator.hpp"
+#include "../iterators/vector_iterator.hpp"
+#include "../iterators/reverse_iterator.hpp"
 #include "../compares.hpp"
 
 using std::cout;

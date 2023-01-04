@@ -14,10 +14,31 @@ using namespace std;
 
 int main()
 {
-	ft::map<int, int> hola;
-	hola[1] = 1;
+	// ft::rbt::RBT<int, std::less<int> > tree;
 
-	cout << hola[1] << endl;
+	// typedef pair<int, string> mypair;
+	// mypair mipair(1, "holaaa");
+	
+	// tree.insert(0);
+	// tree.insert(1, reinterpret_cast<uintptr_t>(&mipair));
+	// tree.insert(2);
+	// tree.insert(3);
+	// tree.insert(4);
+	// tree.insert(5);
+	// tree.insert(6);
+	// tree.insert(7);
+	// tree.insert(8);
+	// // tree.printTree();
+	// // cout << "-------------------------------------\n";
+	// tree.insert(5);
+	// tree.printTree();
+	// uintptr_t hey = tree.find(1);
+	// if(hey == 0)
+	// 	return 0;
+	// mypair hola = *reinterpret_cast<mypair *>(hey);
+	// cout << "first:" << hola.first << " second:" << hola.second << "\n";
+	ft::map<int, int> hola;
+	
 	return 0;
 }
 /*#include <iostream>
