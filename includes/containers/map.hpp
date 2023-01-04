@@ -14,8 +14,6 @@ namespace ft
 	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<ft::pair<const Key, T> > >
 	class map
 	{
-		typedef rbt::RBT<Key, T, Compare> RBtree;
-		// typedef rbt::RBnode<Key> *pointer;
 
 	public:
 		typedef Key key_type;
@@ -31,10 +29,12 @@ namespace ft
 		typedef typename allocator_type::const_pointer const_pointer;
 		typedef ft::map_iterator<map> iterator;
 		typedef ft::map_iterator<const map> const_iterator;
-		// typedef typename ft::reverse_iterator<map> reverse_iterator;
-		// typedef typename ft::reverse_iterator<const map> const_reverse_iterator;
+		typedef typename ft::reverse_iterator<map> reverse_iterator;
+		typedef typename ft::reverse_iterator<const map> const_reverse_iterator;
 
 	private:
+		typedef rbt::RBT<Key, value_type, Compare> RBtree;
+		typedef rbt::RBnode<key_type, value_type> *nodePtr;
 		RBtree rbTree;
 		size_type size;
 		key_compare compare;
@@ -86,22 +86,30 @@ namespace ft
 		~map() {}
 
 		// ELEMENT ACCESS
-		mapped_type& at (const key_type& k);
+		mapped_type &at(const key_type &k);
 
-		const mapped_type& at (const key_type& k) const;
+		const mapped_type &at(const key_type &k) const;
 
 		mapped_type &operator[](const key_type &k);
+
+		// ITERATORS
+		iterator begin() { return iterator(rbTree.findBegin()); };
+		const_iterator begin() const { return iterator(rbTree.findBegin()); };
+		iterator end() { return iterator(rbTree.findEnd()); };
+		const_iterator end() const { return iterator(rbTree.findEnd()); };
+
 		// MODIFIERS
 		// single element (1)
-		// pair<iterator, bool> insert(const value_type &val)
-		// {
-		// 	if (rbTree.find(val.key))
-		// 		return ft::make_pair(val.second, false);
+		pair<iterator, bool> insert(const value_type &val)
+		{
+			nodePtr node = rbTree.getNode(val.first);
+			if (node != nullptr)
+				return ft::make_pair(iterator(node), false);
 
-		// 	rbTree.insert(val.first, reinterpret_cast<uintptr_t>(val));
-		// 	size++;
-		// 	return ft::make_pair(val.second, true);
-		// }
+			node = rbTree.insert(val.first, ft::make_pair(val.first, val.second));
+			size++;
+			return ft::make_pair(iterator(node), true);
+		}
 		// with hint (2)
 		// iterator insert(iterator position, const value_type &val);
 		// range (3)
@@ -110,5 +118,4 @@ namespace ft
 	};
 
 } // namespace ft
-
 #endif

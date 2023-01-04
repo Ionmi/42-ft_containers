@@ -16,10 +16,10 @@ int main()
 {
 	ft::rbt::RBT<int, ft::pair<int, int> > tree;
 
-	tree.insert(0, ft::make_pair(0, 0));
-	tree.insert(1, ft::make_pair(1, 1));
-	tree.insert(2, ft::make_pair(2, 2));
-	tree.insert(3, ft::make_pair(3, 3));
+	// tree.insert(0, ft::make_pair(0, 0));
+	// tree.insert(1, ft::make_pair(1, 1));
+	// tree.insert(2, ft::make_pair(2, 2));
+	// tree.insert(3, ft::make_pair(3, 3));
 	// tree.insert(4);
 	// tree.insert(5);
 	// tree.insert(6);
@@ -34,15 +34,20 @@ int main()
 	// 	return 0;
 	// mypair hola = *reinterpret_cast<mypair *>(hey);
 	// cout << "first:" << hola.first << " second:" << hola.second << "\n";
-	ft::map<int, int> hola;
-
 	typedef ft::map<int, int>::iterator mapIterator;
 
-	mapIterator it(tree.getRoot());
-	for (int i = 0; i < 3; i++)
+	ft::map<int, int> hola;
+	hola.insert(ft::make_pair(0, 0));
+	hola.insert(ft::make_pair(1, 1));
+	hola.insert(ft::make_pair(2, 2));
+	hola.insert(ft::make_pair(3, 3));
+
+	mapIterator end = hola.end();
+
+	cout << "begin:" << hola.begin()->first << "$\n";
+	for (mapIterator it = hola.begin(); it != end; ++it)
 	{
 		cout << "key: " << it->first << "\n";
-		it++;
 	}
 
 	// it.hola();
