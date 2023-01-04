@@ -12,20 +12,20 @@ namespace ft
 	{
 		// class FindNext = rbt::findNext<typename map::key_type>;
 		// class FindPrevious = rbt::findPrevious<typename map::key_type>;
-		typedef rbt::RBnode<typename map::key_type> *nodePtr;
+		typedef rbt::RBnode<typename map::key_type, typename map::value_type> *nodePtr;
 
 	public:
 		typedef typename map::value_type value_type;
 		typedef typename map::difference_type difference_type;
-		typedef typename map::pointer pointer;
-		typedef typename map::reference reference;
+		typedef value_type &reference;
+		typedef value_type *pointer;
 
 	private:
 		nodePtr node;
 
 	public:
 		map_iterator() : node(nullptr){};
-		map_iterator(nodePtr node) : node(node){};
+		map_iterator(const nodePtr node) : node(node){};
 		map_iterator(const map_iterator &ref) : node(ref.node){};
 		map_iterator &operator=(const map_iterator &ref)
 		{
@@ -45,8 +45,6 @@ namespace ft
 		{
 			map_iterator it = *this;
 			node = rbt::findNext(node);
-			cout << " address fuera:" << node << "$\n";
-			cout << "++ ->" << reinterpret_cast<value_type *>(&node->data)->first << "$\n";
 			return it;
 		}
 		map_iterator &operator--()
@@ -60,12 +58,11 @@ namespace ft
 			node = rbt::findPrevious(node);
 			return it;
 		}
-		reference operator*() const { return *node; }
+		reference operator*() const { return node->data; }
 		pointer operator->() const
 		{
-			return reinterpret_cast<value_type *>(&node->data);
+			return &node->data;
 		}
-		// pointer operator->() const { return reinterpret_cast<value_type>(this->data); }
 
 		void hola()
 		{

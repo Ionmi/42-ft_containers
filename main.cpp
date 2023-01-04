@@ -14,15 +14,12 @@ using namespace std;
 
 int main()
 {
-	ft::rbt::RBT<int> tree;
+	ft::rbt::RBT<int, ft::pair<int, int> > tree;
 
-	typedef pair<int, string> mypair;
-	mypair mipair(1, "holaaa");
-
-	tree.insert(0);
-	tree.insert(1, reinterpret_cast<uintptr_t>(&mipair));
-	tree.insert(2);
-	tree.insert(3);
+	tree.insert(0, ft::make_pair(0, 0));
+	tree.insert(1, ft::make_pair(1, 1));
+	tree.insert(2, ft::make_pair(2, 2));
+	tree.insert(3, ft::make_pair(3, 3));
 	// tree.insert(4);
 	// tree.insert(5);
 	// tree.insert(6);
@@ -41,14 +38,14 @@ int main()
 
 	typedef ft::map<int, int>::iterator mapIterator;
 
-	mapIterator it = tree.getRoot();
-	// for (int i = 0; i < 3; i++)
-	// {
-	// 	cout << "key: " << it->first << "\n";
-	// 	it++;
-	// }
+	mapIterator it(tree.getRoot());
+	for (int i = 0; i < 3; i++)
+	{
+		cout << "key: " << it->first << "\n";
+		it++;
+	}
 
-	it.hola();
+	// it.hola();
 	cout << "-------------------------------------\n";
 	// map<int, int>::iterator it2;
 

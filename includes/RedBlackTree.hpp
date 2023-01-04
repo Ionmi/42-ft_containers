@@ -12,7 +12,7 @@ namespace ft
 {
 	namespace rbt
 	{
-		template <class Key>
+		template <class Key, class T>
 		struct RBnode
 		{
 			RBnode *parent;
@@ -20,7 +20,7 @@ namespace ft
 			RBnode *left;
 			int color;
 			Key key;
-			uintptr_t data;
+			T data;
 
 			RBnode()
 			{
@@ -30,7 +30,7 @@ namespace ft
 				color = BLACK;
 			};
 
-			RBnode(const Key &key, const uintptr_t data)
+			RBnode(const Key &key, const T data)
 			{
 				this->key = key;
 				this->data = data;
@@ -41,17 +41,15 @@ namespace ft
 			};
 		}; // struct RBnode
 
-		template <class Key>
-		RBnode<Key> *findNext(const RBnode<Key> *node)
+		template <class Key, class T>
+		RBnode<Key, T> *findNext(const RBnode<Key, T> *node)
 		{
-			RBnode<Key> *tmp;
+			RBnode<Key, T> *tmp;
 			if (node->right)
 			{
 				tmp = node->right;
 				while (tmp->left != NIL)
 					tmp = tmp->left;
-				cout << "address dentro:" << tmp << "$\n";
-				cout << reinterpret_cast<std::pair<int, int> *>(&tmp->data)->first << "$\n";
 				return tmp;
 			}
 			if (node->parent == nullptr)
@@ -68,10 +66,10 @@ namespace ft
 			return tmp;
 		}
 
-		template <class Key>
-		RBnode<Key> *findPrevious(const RBnode<Key> *node)
+		template <class Key, class T>
+		RBnode<Key, T> *findPrevious(const RBnode<Key, T> *node)
 		{
-			RBnode<Key> *tmp;
+			RBnode<Key, T> *tmp;
 			if (node->left)
 			{
 				tmp = node->left;
@@ -93,12 +91,12 @@ namespace ft
 			return tmp;
 		}
 
-		template <class Key, class Compare = std::less<Key> >
+		template <class Key, class T, class Compare = std::less<Key> >
 		class RBT
 		{
 		public:
-			typedef RBnode<Key> *pointer;
-			typedef std::allocator<RBnode<Key> > allocator_type;
+			typedef RBnode<Key, T> *pointer;
+			typedef std::allocator<RBnode<Key, T> > allocator_type;
 			typedef typename allocator_type::size_type size_type;
 
 		private:
@@ -115,16 +113,16 @@ namespace ft
 			RBT<Key, Compare> &operator=(const RBT &rbt);
 
 			void printTree();
-			void insert(const Key, uintptr_t data = 0);
-			void insertReplace(const Key, uintptr_t data = 0);
-			uintptr_t find(Key);
+			void insert(const Key, const T);
+			void insertReplace(const Key, const T);
+			T &find(Key);
 			void remove(const Key);
 
 			// GETTERS
 			const pointer &getRoot() const { return root; }
 
 		private:
-			void insertNode(pointer, pointer &, const Key, uintptr_t);
+			void insertNode(pointer, pointer &, const Key &, const T &);
 			pointer findNode(pointer, Key);
 			pointer findPredecessor(pointer);
 			pointer findSuccessor(pointer);
@@ -141,39 +139,39 @@ namespace ft
 		}; // class RBT
 
 		// PUBLIC
-		template <class Key, class Compare>
-		RBT<Key, Compare>::RBT() : root(NIL), compare(Compare()), size(0) {}
+		template <class Key, class T, class Compare>
+		RBT<Key, T, Compare>::RBT() : root(NIL), compare(Compare()), size(0) {}
 
-		template <class Key, class Compare>
-		RBT<Key, Compare>::RBT(const RBT &rbt) : compare(Compare())
+		template <class Key, class T, class Compare>
+		RBT<Key, T, Compare>::RBT(const RBT &rbt) : compare(Compare())
 		{
 			copyRBT(rbt.root);
 		}
 
-		template <class Key, class Compare>
-		RBT<Key, Compare>::~RBT() { deleteTree(root); }
+		template <class Key, class T, class Compare>
+		RBT<Key, T, Compare>::~RBT() { deleteTree(root); }
 
-		template <class Key, class Compare>
-		RBT<Key, Compare> &RBT<Key, Compare>::operator=(const RBT &rbt)
+		template <class Key, class T, class Compare>
+		RBT<Key, Compare> &RBT<Key, T, Compare>::operator=(const RBT &rbt)
 		{
 			compare = rbt.compare;
 			copyRBT(rbt.root);
 		}
 
-		template <class Key, class Compare>
-		void RBT<Key, Compare>::printTree()
+		template <class Key, class T, class Compare>
+		void RBT<Key, T, Compare>::printTree()
 		{
 			if (root)
 				printHelper(root, 0);
 		}
 
-		template <class Key, class Compare>
-		void RBT<Key, Compare>::insert(const Key key, uintptr_t data)
+		template <class Key, class T, class Compare>
+		void RBT<Key, T, Compare>::insert(const Key key, const T data)
 		{
 			if (root == NIL)
 			{
 				root = allocator.allocate(1);
-				allocator.construct(root, RBnode<Key>(key, data));
+				allocator.construct(root, RBnode<Key, T>(key, data));
 				root->color = BLACK;
 				size++;
 				return;
@@ -183,8 +181,8 @@ namespace ft
 			insertNode(nullptr, root, key, data);
 		}
 
-		template <class Key, class Compare>
-		void RBT<Key, Compare>::insertReplace(const Key key, uintptr_t data)
+		template <class Key, class T, class Compare>
+		void RBT<Key, T, Compare>::insertReplace(const Key key, T data)
 		{
 			pointer found = find(key);
 			if (found == NULL)
@@ -195,15 +193,15 @@ namespace ft
 			found->data = data;
 		}
 
-		template <class Key, class Compare>
-		uintptr_t RBT<Key, Compare>::find(Key key)
+		template <class Key, class T, class Compare>
+		T &RBT<Key, T, Compare>::find(Key key)
 		{
 			pointer found = findNode(root, key);
 			return found != nullptr ? found->data : 0;
 		}
 
-		template <class Key, class Compare>
-		void RBT<Key, Compare>::remove(const Key key)
+		template <class Key, class T, class Compare>
+		void RBT<Key, T, Compare>::remove(const Key key)
 		{
 		remove:
 			pointer found = findNode(root, key);
@@ -252,13 +250,13 @@ namespace ft
 		}
 
 		// PRIVATE
-		template <class Key, class Compare>
-		void RBT<Key, Compare>::insertNode(pointer parent, pointer &node, const Key key, uintptr_t data)
+		template <class Key, class T, class Compare>
+		void RBT<Key, T, Compare>::insertNode(pointer parent, pointer &node, const Key &key, const T &data)
 		{
 			if (node == NIL)
 			{
 				node = allocator.allocate(1);
-				allocator.construct(node, RBnode<Key>(key, data));
+				allocator.construct(node, RBnode<Key, T>(key, data));
 				node->parent = parent;
 				insertFix(node);
 				return;
@@ -268,8 +266,8 @@ namespace ft
 				: insertNode(node, node->right, key, data);
 		}
 
-		template <class Key, class Compare>
-		RBnode<Key> *RBT<Key, Compare>::findNode(pointer node, Key key)
+		template <class Key, class T, class Compare>
+		RBnode<Key, T> *RBT<Key, T, Compare>::findNode(pointer node, Key key)
 		{
 			if (node == NIL)
 				return node;
@@ -283,8 +281,8 @@ namespace ft
 			return findNode(node->right, key);
 		}
 
-		template <class Key, class Compare>
-		RBnode<Key> *RBT<Key, Compare>::findPredecessor(pointer node)
+		template <class Key, class T, class Compare>
+		RBnode<Key, T> *RBT<Key, T, Compare>::findPredecessor(pointer node)
 		{
 			node = node->left;
 			while (node->right != NIL)
@@ -292,8 +290,8 @@ namespace ft
 			return node;
 		}
 
-		template <class Key, class Compare>
-		RBnode<Key> *RBT<Key, Compare>::findSuccessor(pointer node)
+		template <class Key, class T, class Compare>
+		RBnode<Key, T> *RBT<Key, T, Compare>::findSuccessor(pointer node)
 		{
 			node = node->right;
 			while (node->left != NIL)
@@ -301,8 +299,8 @@ namespace ft
 			return node;
 		}
 
-		template <class Key, class Compare>
-		void RBT<Key, Compare>::printHelper(pointer &root, int space)
+		template <class Key, class T, class Compare>
+		void RBT<Key, T, Compare>::printHelper(pointer &root, int space)
 		{
 			// Base case
 			if (root == NULL)
@@ -325,8 +323,8 @@ namespace ft
 			printHelper(root->left, space);
 		}
 
-		template <class Key, class Compare>
-		void RBT<Key, Compare>::leftRotate(pointer x)
+		template <class Key, class T, class Compare>
+		void RBT<Key, T, Compare>::leftRotate(pointer x)
 		{
 			pointer y = x->right;
 
@@ -345,8 +343,8 @@ namespace ft
 			y->parent->right = y;
 		}
 
-		template <class Key, class Compare>
-		void RBT<Key, Compare>::rightRotate(pointer x)
+		template <class Key, class T, class Compare>
+		void RBT<Key, T, Compare>::rightRotate(pointer x)
 		{
 			pointer y = x->left;
 
@@ -365,8 +363,8 @@ namespace ft
 			y->parent->left = y;
 		}
 
-		template <class Key, class Compare>
-		void RBT<Key, Compare>::insertFix(pointer current)
+		template <class Key, class T, class Compare>
+		void RBT<Key, T, Compare>::insertFix(pointer current)
 		{
 			pointer uncle;
 			pointer parent;
@@ -415,8 +413,8 @@ namespace ft
 			root->color = BLACK;
 		}
 
-		template <class Key, class Compare>
-		void RBT<Key, Compare>::removeRecolor(pointer current)
+		template <class Key, class T, class Compare>
+		void RBT<Key, T, Compare>::removeRecolor(pointer current)
 		{
 			while (current != root && current->color != RED)
 			{
@@ -428,8 +426,8 @@ namespace ft
 			}
 		}
 
-		template <class Key, class Compare>
-		void RBT<Key, Compare>::fixDoubleBlack(pointer current)
+		template <class Key, class T, class Compare>
+		void RBT<Key, T, Compare>::fixDoubleBlack(pointer current)
 		{
 			if (current->parent == nullptr)
 				return;
@@ -502,8 +500,8 @@ namespace ft
 			parent->color = BLACK;
 		}
 
-		template <class Key, class Compare>
-		void RBT<Key, Compare>::transplant(pointer u, pointer v) // U to be removed for -> V
+		template <class Key, class T, class Compare>
+		void RBT<Key, T, Compare>::transplant(pointer u, pointer v) // U to be removed for -> V
 		{
 			if (v != NIL)
 				v->parent = u->parent;
@@ -519,8 +517,8 @@ namespace ft
 				: u->parent->right = v;
 		}
 
-		template <class Key, class Compare>
-		void RBT<Key, Compare>::deleteTree(pointer node)
+		template <class Key, class T, class Compare>
+		void RBT<Key, T, Compare>::deleteTree(pointer node)
 		{
 			if (node == NIL)
 				return;
@@ -531,15 +529,15 @@ namespace ft
 			deallocateNode(node);
 		}
 
-		template <class Key, class Compare>
-		void RBT<Key, Compare>::deallocateNode(pointer node)
+		template <class Key, class T, class Compare>
+		void RBT<Key, T, Compare>::deallocateNode(pointer node)
 		{
 			allocator.destroy(node);
 			allocator.deallocate(node, 1);
 		}
 
-		template <class Key, class Compare>
-		void RBT<Key, Compare>::copyRBT(pointer node)
+		template <class Key, class T, class Compare>
+		void RBT<Key, T, Compare>::copyRBT(pointer node)
 		{
 			if (!node)
 				return;

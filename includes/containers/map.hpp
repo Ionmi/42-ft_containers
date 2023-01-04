@@ -14,13 +14,13 @@ namespace ft
 	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<ft::pair<const Key, T> > >
 	class map
 	{
-		typedef rbt::RBT<Key, Compare> RBtree;
+		typedef rbt::RBT<Key, T, Compare> RBtree;
 		// typedef rbt::RBnode<Key> *pointer;
 
 	public:
 		typedef Key key_type;
 		typedef T mapped_type;
-		typedef ft::pair<const Key, T> value_type;
+		typedef ft::pair<Key, T> value_type;
 		typedef Compare key_compare;
 		typedef Allocator allocator_type;
 		typedef typename allocator_type::reference reference;
