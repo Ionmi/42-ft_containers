@@ -14,15 +14,15 @@ using namespace std;
 
 int main()
 {
-	// ft::rbt::RBT<int, std::less<int> > tree;
+	ft::rbt::RBT<int> tree;
 
-	// typedef pair<int, string> mypair;
-	// mypair mipair(1, "holaaa");
-	
-	// tree.insert(0);
-	// tree.insert(1, reinterpret_cast<uintptr_t>(&mipair));
-	// tree.insert(2);
-	// tree.insert(3);
+	typedef pair<int, string> mypair;
+	mypair mipair(1, "holaaa");
+
+	tree.insert(0);
+	tree.insert(1, reinterpret_cast<uintptr_t>(&mipair));
+	tree.insert(2);
+	tree.insert(3);
 	// tree.insert(4);
 	// tree.insert(5);
 	// tree.insert(6);
@@ -38,7 +38,20 @@ int main()
 	// mypair hola = *reinterpret_cast<mypair *>(hey);
 	// cout << "first:" << hola.first << " second:" << hola.second << "\n";
 	ft::map<int, int> hola;
-	
+
+	typedef ft::map<int, int>::iterator mapIterator;
+
+	mapIterator it = tree.getRoot();
+	// for (int i = 0; i < 3; i++)
+	// {
+	// 	cout << "key: " << it->first << "\n";
+	// 	it++;
+	// }
+
+	it.hola();
+	cout << "-------------------------------------\n";
+	// map<int, int>::iterator it2;
+
 	return 0;
 }
 /*#include <iostream>

@@ -4,6 +4,7 @@
 #include <iostream>
 #include "../pairs.hpp"
 #include "../RedBlackTree.hpp"
+#include "../iterators/map_iterator.hpp"
 
 // reinterpret_cast<uintptr_t>(ptr);
 // reinterpret_cast<Data *>(raw);
@@ -28,10 +29,10 @@ namespace ft
 		typedef typename allocator_type::difference_type difference_type;
 		typedef typename allocator_type::pointer pointer;
 		typedef typename allocator_type::const_pointer const_pointer;
-		// typedef ft::iterator<ft::map_iterator> iterator;
-		// typedef ft::iterator<ft::map_const_iterator> const_iterator;
-		// typedef typename ft::reverse_iterator<ft::map_iterator> reverse_iterator;
-		// typedef typename ft::reverse_iterator<ft::map_const_iterator> const_reverse_iterator;
+		typedef ft::map_iterator<map> iterator;
+		typedef ft::map_iterator<const map> const_iterator;
+		// typedef typename ft::reverse_iterator<map> reverse_iterator;
+		// typedef typename ft::reverse_iterator<const map> const_reverse_iterator;
 
 	private:
 		RBtree rbTree;

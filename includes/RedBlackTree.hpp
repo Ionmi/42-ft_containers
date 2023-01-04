@@ -41,6 +41,58 @@ namespace ft
 			};
 		}; // struct RBnode
 
+		template <class Key>
+		RBnode<Key> *findNext(const RBnode<Key> *node)
+		{
+			RBnode<Key> *tmp;
+			if (node->right)
+			{
+				tmp = node->right;
+				while (tmp->left != NIL)
+					tmp = tmp->left;
+				cout << "address dentro:" << tmp << "$\n";
+				cout << reinterpret_cast<std::pair<int, int> *>(&tmp->data)->first << "$\n";
+				return tmp;
+			}
+			if (node->parent == nullptr)
+				return nullptr;
+			tmp = node->parent;
+			while (tmp->right == tmp)
+			{
+				if (tmp->parent == nullptr)
+					return nullptr;
+				tmp = tmp->parent;
+			}
+			if (tmp->right == node)
+				return nullptr;
+			return tmp;
+		}
+
+		template <class Key>
+		RBnode<Key> *findPrevious(const RBnode<Key> *node)
+		{
+			RBnode<Key> *tmp;
+			if (node->left)
+			{
+				tmp = node->left;
+				while (tmp->right != NIL)
+					tmp = tmp->right;
+				return tmp;
+			}
+			if (node->parent == nullptr)
+				return nullptr;
+			tmp = node->parent;
+			while (tmp->left == tmp)
+			{
+				if (tmp->parent == nullptr)
+					return nullptr;
+				tmp = tmp->parent;
+			}
+			if (tmp->left == node)
+				return nullptr;
+			return tmp;
+		}
+
 		template <class Key, class Compare = std::less<Key> >
 		class RBT
 		{
@@ -67,6 +119,9 @@ namespace ft
 			void insertReplace(const Key, uintptr_t data = 0);
 			uintptr_t find(Key);
 			void remove(const Key);
+
+			// GETTERS
+			const pointer &getRoot() const { return root; }
 
 		private:
 			void insertNode(pointer, pointer &, const Key, uintptr_t);
