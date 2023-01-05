@@ -14,45 +14,18 @@ using namespace std;
 
 int main()
 {
-	ft::rbt::RBT<int, ft::pair<int, int> > tree;
-
-	// tree.insert(0, ft::make_pair(0, 0));
-	// tree.insert(1, ft::make_pair(1, 1));
-	// tree.insert(2, ft::make_pair(2, 2));
-	// tree.insert(3, ft::make_pair(3, 3));
-	// tree.insert(4);
-	// tree.insert(5);
-	// tree.insert(6);
-	// tree.insert(7);
-	// tree.insert(8);
-	// // tree.printTree();
-	// // cout << "-------------------------------------\n";
-	// tree.insert(5);
-	// tree.printTree();
-	// uintptr_t hey = tree.find(1);
-	// if(hey == 0)
-	// 	return 0;
-	// mypair hola = *reinterpret_cast<mypair *>(hey);
-	// cout << "first:" << hola.first << " second:" << hola.second << "\n";
-	typedef ft::map<int, int>::iterator mapIterator;
-
-	ft::map<int, int> hola;
-	hola.insert(ft::make_pair(0, 0));
-	hola.insert(ft::make_pair(1, 1));
-	hola.insert(ft::make_pair(2, 2));
-	hola.insert(ft::make_pair(3, 3));
-
-	mapIterator end = hola.end();
-
-	cout << "begin:" << hola.begin()->first << "$\n";
-	for (mapIterator it = hola.begin(); it != end; ++it)
 	{
-		cout << "key: " << it->first << "\n";
-	}
+		typedef ft::map<int, int>::reverse_iterator mapIterator;
 
-	// it.hola();
-	cout << "-------------------------------------\n";
-	// map<int, int>::iterator it2;
+		ft::map<int, int> hola;
+		hola.insert(ft::make_pair(0, 0));
+		hola.insert(ft::make_pair(1, 1));
+		hola.insert(ft::make_pair(2, 2));
+		hola.insert(ft::make_pair(3, 3));
+
+		for (mapIterator it = hola.rbegin(); it != hola.rend(); ++it)
+			cout << "key: " << it->first << "\n";
+	}
 
 	return 0;
 }

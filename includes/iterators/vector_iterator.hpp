@@ -6,13 +6,14 @@
 namespace ft
 {
 	template <class vector>
-	class iterator // : public Iterator<typename ft::iterator_traits<vector *>::random_access_iterator_tag, typename vector::value_type>
+	class iterator //: public Iterator<typename ft::iterator_traits<vector *>::random_access_iterator_tag, typename vector::value_type>
 	{
 	public:
 		typedef typename vector::value_type value_type;
 		typedef typename vector::difference_type difference_type;
 		typedef typename vector::pointer pointer;
 		typedef typename vector::reference reference;
+		typedef typename std::random_access_iterator_tag iterator_category;
 
 	private:
 		pointer ptr;

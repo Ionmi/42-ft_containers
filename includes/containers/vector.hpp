@@ -236,7 +236,6 @@ namespace ft
 		}
 		void push_back(const value_type &val)
 		{
-			cout << "holaaaa\n";
 			if (_capacity > _size)
 			{
 				allocator.construct(_first + _size, val);

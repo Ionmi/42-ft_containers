@@ -35,8 +35,8 @@ namespace ft
 
 		reference operator*() const
 		{
-			Iterator tmp = current;
-			return *--tmp;
+			iterator_type tmp = current;
+			return *tmp;
 		};
 
 		pointer operator->() const { return &(operator*()); };
@@ -55,15 +55,15 @@ namespace ft
 		};
 		reverse_iterator operator++(int)
 		{
-			Iterator tmp = *this;
-			--tmp;
-			return *tmp;
+			reverse_iterator tmp = *this;
+			--current;
+			return tmp;
 		};
 		reverse_iterator operator--(int)
 		{
-			Iterator tmp = *this;
-			++tmp;
-			return *tmp;
+			reverse_iterator tmp = *this;
+			++current;
+			return tmp;
 		};
 		reverse_iterator operator+(difference_type n) const { return reverse_iterator(base() - n); };
 		reverse_iterator operator-(difference_type n) const { return reverse_iterator(base() + n); };

@@ -12,6 +12,7 @@ namespace ft
 {
 	namespace rbt
 	{
+
 		template <class Key, class T>
 		struct RBnode
 		{
@@ -22,6 +23,7 @@ namespace ft
 			Key key;
 			T data;
 			bool isEndType;
+			void *parentClass;
 
 			RBnode()
 			{
@@ -50,60 +52,6 @@ namespace ft
 				color = RED;
 			};
 		}; // struct RBnode
-
-		template <class Key, class T>
-		RBnode<Key, T> *findNext(const RBnode<Key, T> *node)
-		{
-			RBnode<Key, T> *tmp;
-			if (node->right)
-			{
-				tmp = node->right;
-				while (tmp->left != NIL)
-					tmp = tmp->left;
-				return tmp;
-			}
-			if (node->parent == nullptr)
-			{
-				WRANING:
-				devolver aqui end o rend;
-				return nullptr;
-			}
-			tmp = node->parent;
-			while (tmp->right == tmp)
-			{
-				if (tmp->parent == nullptr)
-					return nullptr;
-				tmp = tmp->parent;
-			}
-			if (tmp->right == node)
-				return nullptr;
-			return tmp;
-		}
-
-		template <class Key, class T>
-		RBnode<Key, T> *findPrevious(const RBnode<Key, T> *node)
-		{
-			RBnode<Key, T> *tmp;
-			if (node->left)
-			{
-				tmp = node->left;
-				while (tmp->right != NIL)
-					tmp = tmp->right;
-				return tmp;
-			}
-			if (node->parent == nullptr)
-				return nullptr;
-			tmp = node->parent;
-			while (tmp->left == tmp)
-			{
-				if (tmp->parent == nullptr)
-					return nullptr;
-				tmp = tmp->parent;
-			}
-			if (tmp->left == node)
-				return nullptr;
-			return tmp;
-		}
 
 		template <class Key, class T, class Compare = std::less<Key> >
 		class RBT
@@ -142,6 +90,8 @@ namespace ft
 			pointer findEnd() const;
 			pointer findRbegin() const;
 			pointer findRend() const;
+			pointer findNext(pointer);
+			pointer findPrevious(pointer);
 
 		private:
 			pointer insertNode(pointer, pointer &, const Key &, const T &);
@@ -237,6 +187,68 @@ namespace ft
 		}
 
 		template <class Key, class T, class Compare>
+		RBnode<Key, T> *RBT<Key, T, Compare>::findNext(pointer node)
+		{
+			pointer tmp;
+			if (node->right)
+			{
+				tmp = node->right;
+				while (tmp->left != NIL)
+					tmp = tmp->left;
+				return tmp;
+			}
+			if (node->parent == nullptr)
+			{
+				end->parent = node;
+				return end;
+			}
+			if (node->parent->left == node)
+				return node->parent;
+			tmp = node;
+			while (tmp->parent->right == tmp)
+			{
+				tmp = tmp->parent;
+				if (tmp->parent == nullptr)
+				{
+					end->parent = node;
+					return end;
+				}
+			}
+			return tmp->parent;
+		}
+
+		template <class Key, class T, class Compare>
+		RBnode<Key, T> *RBT<Key, T, Compare>::findPrevious(pointer node)
+		{
+			pointer tmp;
+			if (node->left)
+			{
+				tmp = node->left;
+				while (tmp->right != NIL)
+					tmp = tmp->right;
+				return tmp;
+			}
+			if (node->parent == nullptr)
+			{
+				rend->parent = node;
+				return rend;
+			}
+			if (node->parent->right == node)
+				return node->parent;
+			tmp = node;
+			while (tmp->parent->left == tmp)
+			{
+				tmp = tmp->parent;
+				if (tmp->parent == nullptr)
+				{
+					rend->parent = node;
+					return rend;
+				}
+			}
+			return tmp->parent;
+		}
+
+		template <class Key, class T, class Compare>
 		RBnode<Key, T> *RBT<Key, T, Compare>::insert(const Key key, const T data)
 		{
 			if (root == NIL)
@@ -244,6 +256,7 @@ namespace ft
 				root = allocator.allocate(1);
 				allocator.construct(root, RBnode<Key, T>(key, data));
 				root->color = BLACK;
+				root->parentClass = this;
 				size++;
 				return root;
 			}
@@ -327,6 +340,7 @@ namespace ft
 				node = allocator.allocate(1);
 				allocator.construct(node, RBnode<Key, T>(key, data));
 				node->parent = parent;
+				node->parentClass = this;
 				insertFix(node);
 				return node;
 			}

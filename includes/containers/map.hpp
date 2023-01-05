@@ -29,8 +29,8 @@ namespace ft
 		typedef typename allocator_type::const_pointer const_pointer;
 		typedef ft::map_iterator<map> iterator;
 		typedef ft::map_iterator<const map> const_iterator;
-		typedef typename ft::reverse_iterator<map> reverse_iterator;
-		typedef typename ft::reverse_iterator<const map> const_reverse_iterator;
+		typedef typename ft::reverse_iterator<iterator> reverse_iterator;
+		typedef typename ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
 	private:
 		typedef rbt::RBT<Key, value_type, Compare> RBtree;
@@ -97,6 +97,11 @@ namespace ft
 		const_iterator begin() const { return iterator(rbTree.findBegin()); };
 		iterator end() { return iterator(rbTree.findEnd()); };
 		const_iterator end() const { return iterator(rbTree.findEnd()); };
+
+		reverse_iterator rbegin() { return reverse_iterator(rbTree.findRbegin()); };
+		const_reverse_iterator rbegin() const { return reverse_iterator(rbTree.findRbegin()); };
+		reverse_iterator rend() { return reverse_iterator(rbTree.findRend()); };
+		const_reverse_iterator rend() const { return reverse_iterator(rbTree.findRend()); };
 
 		// MODIFIERS
 		// single element (1)
