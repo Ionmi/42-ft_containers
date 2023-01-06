@@ -20,13 +20,33 @@ int main()
 		ft::map<int, int> hola;
 		hola.insert(ft::make_pair(0, 0));
 		hola.insert(ft::make_pair(1, 1));
-		hola.insert(ft::make_pair(2, 2));
-		hola.insert(ft::make_pair(3, 3));
 
 		for (mapIterator it = hola.rbegin(); it != hola.rend(); ++it)
-			cout << "key: " << it->first << "\n";
+			cout << "key: " << it->second << "\n";
+		ft::map<int, int> hola2 = hola;
+		exit(1);
+		bucle infinito en el ++ o algo
+		for (mapIterator it = hola2.rbegin(); it != hola.rend(); ++it)
+			cout << "key: " << it->second << "\n";
 	}
+	// cout << "----------------------------------\n";
+	// {
+	// 	typedef std::map<int, int>::reverse_iterator mapIterator;
 
+	// 	std::map<int, int> hola;
+	// 	hola.insert(std::make_pair(0, 0));
+	// 	hola.insert(std::make_pair(1, 1));
+
+	// 	for (mapIterator it = hola.rbegin(); it != hola.rend(); ++it)
+	// 		cout << "key: " << it->second << "\n";
+	// 	hola.clear();
+	// 	hola.insert(std::make_pair(0, 0));
+	// 	hola.insert(std::make_pair(1, 1));
+
+	// 	for (mapIterator it = hola.rbegin(); it != hola.rend(); ++it)
+	// 		cout << "key: " << it->second << "\n";
+
+	// }
 	return 0;
 }
 /*#include <iostream>

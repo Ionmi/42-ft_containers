@@ -36,7 +36,7 @@ namespace ft
 		typedef rbt::RBT<Key, value_type, Compare> RBtree;
 		typedef rbt::RBnode<key_type, value_type> *nodePtr;
 		RBtree rbTree;
-		size_type size;
+		size_type _size;
 		key_compare compare;
 		allocator_type allocator;
 
@@ -60,7 +60,7 @@ namespace ft
 
 		// empty(1)
 		explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type())
-			: size(0), compare(comp), allocator(alloc) {}
+			: _size(0), compare(comp), allocator(alloc) {}
 
 		// range (2)
 		template <class InputIterator>
@@ -77,33 +77,66 @@ namespace ft
 		{
 			if (this == &x)
 				return *this;
-			delete rbTree;
-			size = x.size;
-			rbTree(x.rbTree);
+			rbTree.clear();
+			_size = x._size;
+			for (const_iterator it = x.begin(); it != x.end(); ++it)
+				insert(*it);
 			return *this;
 		}
 
 		~map() {}
+		allocator_type get_allocator() const { return allocator; }
 
 		// ELEMENT ACCESS
-		mapped_type &at(const key_type &k);
+		mapped_type &at(const key_type &k)
+		{
+			value_type *data = rbTree.find(k);
+			if (data == NULL)
+				throw std::out_of_range("ft::map::at:  key not found");
+			return data->second;
+		}
 
-		const mapped_type &at(const key_type &k) const;
+		const mapped_type &at(const key_type &k) const
+		{
+			value_type *data = rbTree.find(k);
+			if (data == NULL)
+				throw std::out_of_range("ft::map::at:  key not found");
+			return data->second;
+		}
 
-		mapped_type &operator[](const key_type &k);
+		mapped_type &operator[](const key_type &k)
+		{
+			return (*((insert(ft::make_pair(k, mapped_type()))).first)).second;
+		}
 
 		// ITERATORS
 		iterator begin() { return iterator(rbTree.findBegin()); };
-		const_iterator begin() const { return iterator(rbTree.findBegin()); };
+		const_iterator begin() const { return const_iterator(rbTree.findBegin()); };
 		iterator end() { return iterator(rbTree.findEnd()); };
-		const_iterator end() const { return iterator(rbTree.findEnd()); };
+		const_iterator end() const { return const_iterator(rbTree.findEnd()); };
 
 		reverse_iterator rbegin() { return reverse_iterator(rbTree.findRbegin()); };
-		const_reverse_iterator rbegin() const { return reverse_iterator(rbTree.findRbegin()); };
+		const_reverse_iterator rbegin() const { return const_reverse_iterator(rbTree.findRbegin()); };
 		reverse_iterator rend() { return reverse_iterator(rbTree.findRend()); };
-		const_reverse_iterator rend() const { return reverse_iterator(rbTree.findRend()); };
+		const_reverse_iterator rend() const { return const_reverse_iterator(rbTree.findRend()); };
+
+		// CAPACITY
+		bool empty() const { return _size == 0; };
+		size_type size() const { return _size; };
+		size_type max_size() const
+		{
+			return allocator.max_size() > rbTree.getMaxSize()
+					   ? allocator.max_size()
+					   : rbTree.getMaxSize();
+		};
 
 		// MODIFIERS
+
+		void clear()
+		{
+			rbTree.clear();
+			_size = 0;
+		}
 		// single element (1)
 		pair<iterator, bool> insert(const value_type &val)
 		{
@@ -112,7 +145,7 @@ namespace ft
 				return ft::make_pair(iterator(node), false);
 
 			node = rbTree.insert(val.first, ft::make_pair(val.first, val.second));
-			size++;
+			_size++;
 			return ft::make_pair(iterator(node), true);
 		}
 		// with hint (2)

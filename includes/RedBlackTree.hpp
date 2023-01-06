@@ -79,12 +79,13 @@ namespace ft
 			void printTree();
 			pointer insert(const Key, const T);
 			pointer insertReplace(const Key, const T);
-			T &find(Key);
-			void remove(const Key);
+			T *find(const Key &);
+			void remove(const Key &);
 
 			// GETTERS
 			const pointer getNode(const Key key) const { return findNode(root, key); };
 			const pointer getRoot() const { return root; };
+			const size_type getMaxSize() const { return allocator.maxSize(); };
 
 			pointer findBegin() const;
 			pointer findEnd() const;
@@ -92,6 +93,7 @@ namespace ft
 			pointer findRend() const;
 			pointer findNext(pointer);
 			pointer findPrevious(pointer);
+			void clear();
 
 		private:
 			pointer insertNode(pointer, pointer &, const Key &, const T &);
@@ -127,18 +129,19 @@ namespace ft
 		}
 
 		template <class Key, class T, class Compare>
+		RBT<Key, Compare> &RBT<Key, T, Compare>::operator=(const RBT &rbt)
+		{
+			compare = rbt.compare;
+			copyRBT(rbt.root);
+			return *this;
+		}
+
+		template <class Key, class T, class Compare>
 		RBT<Key, T, Compare>::~RBT()
 		{
 			deleteTree(root);
 			deallocateNode(end);
 			deallocateNode(rend);
-		}
-
-		template <class Key, class T, class Compare>
-		RBT<Key, Compare> &RBT<Key, T, Compare>::operator=(const RBT &rbt)
-		{
-			compare = rbt.compare;
-			copyRBT(rbt.root);
 		}
 
 		template <class Key, class T, class Compare>
@@ -276,14 +279,16 @@ namespace ft
 		}
 
 		template <class Key, class T, class Compare>
-		T &RBT<Key, T, Compare>::find(Key key)
+		T *RBT<Key, T, Compare>::find(const Key &key)
 		{
 			pointer found = findNode(root, key);
-			return found != nullptr ? found->data : 0;
+			if (found == nullptr)
+				return 0;
+			return &found->data;
 		}
 
 		template <class Key, class T, class Compare>
-		void RBT<Key, T, Compare>::remove(const Key key)
+		void RBT<Key, T, Compare>::remove(const Key &key)
 		{
 		remove:
 			pointer found = findNode(root, key);
@@ -332,6 +337,13 @@ namespace ft
 		}
 
 		// PRIVATE
+		template <class Key, class T, class Compare>
+		void RBT<Key, T, Compare>::clear()
+		{
+			deleteTree(root);
+			root = NIL;
+		};
+
 		template <class Key, class T, class Compare>
 		RBnode<Key, T> *RBT<Key, T, Compare>::insertNode(pointer parent, pointer &node, const Key &key, const T &data)
 		{
@@ -624,9 +636,9 @@ namespace ft
 		{
 			if (!node)
 				return;
-			inorder(node->left);
+			copyRBT(node->left);
 			insert(node->key, node->data);
-			inorder(node->right);
+			copyRBT(node->right);
 		}
 	} // namespace rbt
 } // namespace ft
