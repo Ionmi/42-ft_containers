@@ -423,9 +423,9 @@ namespace ft
 
 	// SWAP
 	template <class T, class Alloc>
-	void swap(vector<T, Alloc> &x, vector<T, Alloc> &y)
+	void swap(vector<T, Alloc> &lhs, vector<T, Alloc> &rhs)
 	{
-		x.swap(y);
+		lhs.swap(rhs);
 	}
 }
 

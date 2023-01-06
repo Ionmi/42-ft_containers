@@ -366,7 +366,7 @@ namespace ft
 		{
 			if (node == NIL)
 				return node;
-
+				
 			if (node->key == key)
 				return node;
 

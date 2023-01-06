@@ -15,18 +15,22 @@ using namespace std;
 int main()
 {
 	{
-		typedef ft::map<int, int>::reverse_iterator mapIterator;
+		typedef ft::map<int, int>::iterator mapIterator;
 
 		ft::map<int, int> hola;
 		hola.insert(ft::make_pair(0, 0));
 		hola.insert(ft::make_pair(1, 1));
-
-		for (mapIterator it = hola.rbegin(); it != hola.rend(); ++it)
+		ft::map<int, int> hola2;
+		hola2.insert(ft::make_pair(2, 2));
+		hola2.insert(ft::make_pair(3, 3));
+		hola2.insert(ft::make_pair(4, 4));
+		hola2.insert(ft::make_pair(5, 5));
+		hola.swap(hola2);
+		for (mapIterator it = hola.begin(); it != hola.end(); ++it)
 			cout << "key: " << it->second << "\n";
-		ft::map<int, int> hola2 = hola;
-		exit(1);
-		bucle infinito en el ++ o algo
-		for (mapIterator it = hola2.rbegin(); it != hola.rend(); ++it)
+		
+		cout << "---------------------------------\n";
+		for (mapIterator it = hola2.begin(); it != hola2.end(); it++)
 			cout << "key: " << it->second << "\n";
 	}
 	// cout << "----------------------------------\n";
