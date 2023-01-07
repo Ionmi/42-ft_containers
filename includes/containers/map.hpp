@@ -51,11 +51,15 @@ namespace ft
 			typedef bool result_type;
 			typedef value_type first_argument_type;
 			typedef value_type second_argument_type;
-			bool operator()(const value_type &x, const value_type &y) const
+			bool operator()(const value_type &lhs, const value_type &rhs) const
 			{
-				return comp(x.first, y.first);
+				return comp(lhs.first, rhs.first);
 			}
 		};
+		key_compare key_comp() const
+		{
+			return compare;
+		}
 
 		// CONSTRUCTORS
 
@@ -156,17 +160,43 @@ namespace ft
 			return ft::make_pair(iterator(node), true);
 		}
 		// with hint (2)
-		iterator insert(iterator position, const value_type &val);
+		iterator insert(iterator position, const value_type &val)
+		{
+			(void)position;
+			return insert(val);
+		}
 		// range (3)
 		template <class InputIterator>
-		void insert(InputIterator first, InputIterator last);
+		void insert(InputIterator first, InputIterator last)
+		{
+			if (first == last)
+				return;
+			if (first > last)
+				throw std::out_of_range("ft::map");
+			for (; first != last; ++first)
+				insert(*first);
+		}
 
 		// erase (1)
-		void erase(iterator position);
+		void erase(iterator position) { rbTree.remove(position->first); }
 		// erase (2)
-		size_type erase(const key_type &k);
+		size_type erase(const key_type &key)
+		{
+			if (rbTree.find(key) == NULL)
+				return 0;
+			rbTree.remove(key);
+			return 1;
+		}
 		// erase (3)
-		void erase(iterator first, iterator last);
+		void erase(iterator first, iterator last)
+		{
+			if (first == last)
+				return;
+			if (first > last)
+				throw std::out_of_range("ft::map");
+			for (; first != last; ++first)
+				rbTree.remove(first->first);
+		}
 
 		void swap(map &x)
 		{

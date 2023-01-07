@@ -20,17 +20,16 @@ int main()
 		ft::map<int, int> hola;
 		hola.insert(ft::make_pair(0, 0));
 		hola.insert(ft::make_pair(1, 1));
-		ft::map<int, int> hola2;
-		hola2.insert(ft::make_pair(2, 2));
-		hola2.insert(ft::make_pair(3, 3));
-		hola2.insert(ft::make_pair(4, 4));
-		hola2.insert(ft::make_pair(5, 5));
-		hola.swap(hola2);
+		hola.insert(ft::make_pair(2, 2));
+		hola.insert(ft::make_pair(3, 3));
+		
+		
 		for (mapIterator it = hola.begin(); it != hola.end(); ++it)
 			cout << "key: " << it->second << "\n";
 		
+		cout << "returned: " << hola.erase(3) << "\n";
 		cout << "---------------------------------\n";
-		for (mapIterator it = hola2.begin(); it != hola2.end(); it++)
+		for (mapIterator it = hola.begin(); it != hola.end(); it++)
 			cout << "key: " << it->second << "\n";
 	}
 	// cout << "----------------------------------\n";
