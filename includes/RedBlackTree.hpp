@@ -342,6 +342,7 @@ namespace ft
 		{
 			deleteTree(root);
 			root = NIL;
+
 		};
 
 		template <class Key, class T, class Compare>
@@ -622,6 +623,7 @@ namespace ft
 			deleteTree(node->right);
 
 			deallocateNode(node);
+			size = 0;
 		}
 
 		template <class Key, class T, class Compare>
