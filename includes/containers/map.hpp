@@ -314,13 +314,13 @@ namespace ft
 	bool operator>(const ft::map<Key, T, Compare, Alloc> &lhs,
 				   const ft::map<Key, T, Compare, Alloc> &rhs)
 	{
-		return !ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), std::greater<T>());
 	}
 	template <class Key, class T, class Compare, class Alloc>
 	bool operator>=(const ft::map<Key, T, Compare, Alloc> &lhs,
 					const ft::map<Key, T, Compare, Alloc> &rhs)
 	{
-		if (!ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()))
+		if (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), std::greater<T>()))
 			return true;
 		return lhs == rhs;
 	}

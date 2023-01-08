@@ -9,7 +9,7 @@ namespace ft
 	class stack
 	{
 	protected:
-		Container container;
+		Container c;
 
 	public:
 		typedef Container container_type;
@@ -18,55 +18,73 @@ namespace ft
 		typedef typename Container::reference reference;
 		typedef typename Container::const_reference const_reference;
 
-		stack(const container_type &ctnr = container_type()) : container(ctnr){};
-		stack(const stack &other) : container(other.container){};
-		stack &operator=(const stack &other) { container = other.container; };
+		stack(const container_type &ctnr = container_type()) : c(ctnr){};
+		stack(const stack &other) : c(other.c){};
+		stack &operator=(const stack &other) { c = other.c; };
 		~stack(){};
 
 		// ELEMENT ACCESS
-		reference top() { return container.back(); };
-		const_reference top() const { return container.back(); };
+		reference top() { return c.back(); };
+		const_reference top() const { return c.back(); };
 
 		// CAPACITY
-		bool empty() const { return container.empty(); };
-		size_type size() const { return container.size(); };
+		bool empty() const { return c.empty(); };
+		size_type size() const { return c.size(); };
 
 		// MODIFIERS
-		void push(const value_type &value) { container.push_back(value); };
-		void pop() { container.pop_back(); };
+		void push(const value_type &value) { c.push_back(value); };
+		void pop() { c.pop_back(); };
+
+		template <class U, class Container2>
+		friend bool operator==(const stack<U, Container2> &lhs, const stack<U, Container2> &rhs);
+
+		template <class U, class Container2>
+		friend bool operator!=(const stack<U, Container2> &lhs, const stack<U, Container2> &rhs);
+
+		template <class U, class Container2>
+		friend bool operator<(const stack<U, Container2> &lhs, const stack<U, Container2> &rhs);
+
+		template <class U, class Container2>
+		friend bool operator<=(const stack<U, Container2> &lhs, const stack<U, Container2> &rhs);
+
+		template <class U, class Container2>
+		friend bool operator>(const stack<U, Container2> &lhs, const stack<U, Container2> &rhs);
+
+		template <class U, class Container2>
+		friend bool operator>=(const stack<U, Container2> &lhs, const stack<U, Container2> &rhs);
 	};
 	// NON-MEMBER FUNCTION OVERLOADS
 
 	// RELATIONAL OPERATORS
-	template <class T, class Container>
-	bool operator==(const stack<T, Container> &lhs, const stack<T, Container> &rhs)
+	template <class U, class Container2>
+	bool operator==(const stack<U, Container2> &lhs, const stack<U, Container2> &rhs)
 	{
-		return lhs.container == rhs.container;
+		return lhs.c == rhs.c;
 	}
-	template <class T, class Container>
-	bool operator!=(const stack<T, Container> &lhs, const stack<T, Container> &rhs)
+	template <class U, class Container2>
+	bool operator!=(const stack<U, Container2> &lhs, const stack<U, Container2> &rhs)
 	{
-		return lhs.container != rhs.container;
+		return lhs.c != rhs.c;
 	}
-	template <class T, class Container>
-	bool operator<(const stack<T, Container> &lhs, const stack<T, Container> &rhs)
+	template <class U, class Container2>
+	bool operator<(const stack<U, Container2> &lhs, const stack<U, Container2> &rhs)
 	{
-		return lhs.container < rhs.container;
+		return lhs.c < rhs.c;
 	}
-	template <class T, class Container>
-	bool operator<=(const stack<T, Container> &lhs, const stack<T, Container> &rhs)
+	template <class U, class Container2>
+	bool operator<=(const stack<U, Container2> &lhs, const stack<U, Container2> &rhs)
 	{
-		return lhs.container <= rhs.container;
+		return lhs.c <= rhs.c;
 	}
-	template <class T, class Container>
-	bool operator>(const stack<T, Container> &lhs, const stack<T, Container> &rhs)
+	template <class U, class Container2>
+	bool operator>(const stack<U, Container2> &lhs, const stack<U, Container2> &rhs)
 	{
-		return lhs.container >= rhs.container;
+		return lhs.c > rhs.c;
 	}
-	template <class T, class Container>
-	bool operator>=(const stack<T, Container> &lhs, const stack<T, Container> &rhs)
+	template <class U, class Container>
+	bool operator>=(const stack<U, Container> &lhs, const stack<U, Container> &rhs)
 	{
-		return lhs.container > rhs.container;
+		return lhs.c >= rhs.c;
 	}
 
 } // namespace ft

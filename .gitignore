@@ -2,3 +2,4 @@
 settings.json
 *.o
 ft_containers
+*test_output

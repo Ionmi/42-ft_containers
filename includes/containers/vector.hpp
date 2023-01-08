@@ -38,10 +38,10 @@ namespace ft
 	public:
 		//(1) empty container constructor (default constructor) -> Constructs an empty container, with no elements.
 		explicit vector(const allocator_type &alloc = allocator_type())
-			: allocator(alloc), _first(NULL), _size(0), _capacity(0), _max_size(std::numeric_limits<size_type>::max()) {}
+			: allocator(alloc), _first(NULL), _size(0), _capacity(0), _max_size(allocator.max_size()) {}
 		// (2) fill constructor -> Constructs a container with n elements. Each element is a copy of val.
 		explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
-			: allocator(alloc), _size(n), _capacity(n), _max_size(std::numeric_limits<size_type>::max())
+			: allocator(alloc), _size(n), _capacity(n), _max_size(allocator.max_size())
 		{
 			_first = allocator.allocate(n);
 			for (size_type i = 0; i < _size; i++)
@@ -51,7 +51,7 @@ namespace ft
 		template <class InputIterator>
 		vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type(),
 			   typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = 0)
-			: allocator(alloc), _max_size(std::numeric_limits<size_type>::max())
+			: allocator(alloc), _max_size(allocator.max_size())
 		{
 			if (first > last)
 				throw std::length_error("vector");
@@ -149,7 +149,8 @@ namespace ft
 		}
 		// CAPACITY
 		size_type size() const { return _size; };
-		size_type max_size() const { return sizeof(value_type) == 1 ? _max_size : _max_size / (sizeof(value_type) / 2); };
+		size_type max_size() const { return allocator.max_size(); };
+		// size_type max_size() const { return sizeof(value_type) == 1 ? _max_size : _max_size / (sizeof(value_type) / 2); };
 		void resize(size_type n, value_type val = value_type())
 		{
 			if (n == _size)
@@ -205,7 +206,8 @@ namespace ft
 		// MODIFIERS
 		// range (1)
 		template <class InputIterator>
-		void assign(InputIterator first, InputIterator last)
+		void assign(InputIterator first, InputIterator last,
+					typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = 0)
 		{
 			if (first > last)
 				throw std::length_error("vector");
@@ -218,7 +220,7 @@ namespace ft
 				_first = allocator.allocate(_size);
 			}
 			for (difference_type i = 0; i < static_cast<difference_type>(_size); i++)
-				allocator.construct(_first + i, *(first + i));
+				allocator.construct(_first + i, *first++);
 		}
 		// fill (2)
 		void assign(size_type n, const value_type &val)
@@ -411,14 +413,12 @@ namespace ft
 	template <class T, class Alloc>
 	bool operator>(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
-		return !ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+		return !(lhs <= rhs);
 	}
 	template <class T, class Alloc>
 	bool operator>=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
-		if (!ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()))
-			return true;
-		return lhs == rhs;
+		return !(lhs < rhs);
 	}
 
 	// SWAP
