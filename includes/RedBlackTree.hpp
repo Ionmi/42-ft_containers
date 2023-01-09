@@ -22,7 +22,6 @@ namespace ft
 			int color;
 			Key key;
 			T data;
-			bool isEndType;
 			void *parentClass;
 
 			RBnode()
@@ -36,10 +35,7 @@ namespace ft
 			RBnode(RBnode *parent)
 			{
 				this->parent = parent;
-				right = NIL;
-				left = NIL;
 				color = BLACK;
-				isEndType = true;
 			};
 
 			RBnode(const Key &key, const T data)
@@ -85,7 +81,7 @@ namespace ft
 			// GETTERS
 			const pointer getNode(const Key key) const { return findNode(root, key); };
 			const pointer getRoot() const { return root; };
-			const size_type getMaxSize() const { return allocator.maxSize(); };
+			const size_type getMaxSize() const { return allocator.max_size(); };
 
 			pointer findBegin() const;
 			pointer findEnd() const;
@@ -410,10 +406,10 @@ namespace ft
 
 			// Print current node after space
 			// count
-			cout << "\n";
+			std::cout << "\n";
 			for (int i = 10; i < space; i++)
-				cout << " ";
-			cout << root->key << (root->color == RED ? " (RED)" : " (BLACK)") << "\n";
+				std::cout << " ";
+			std::cout << root->key << (root->color == RED ? " (RED)" : " (BLACK)") << "\n";
 
 			// Process left child
 			printHelper(root->left, space);

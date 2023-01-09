@@ -84,9 +84,9 @@ int main()
 	cout << "mystack > mystack -> " << (mystack > mystack) << "\n";
 	cout << "mystack >= other -> " << (mystack >= other) << "\n";
 	cout << "mystack >= mystack -> " << (mystack >= mystack) << "\n";
-
+	
 	cout << "\nPERFORMANCE:\n";
-	for (int i = 0; i < 15000; i++)
+	for (int i = 0; i < 150000; i++)
 		mystack.push(i);
 	printAttributes(mystack);
 

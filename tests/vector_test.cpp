@@ -96,6 +96,10 @@ int main()
 	myvector.insert(myvector.end(), myarray, myarray + 5);
 	printAttributes(myvector);
 
+	cout << "myvector.insert(myvector.begin(), myvector.begin(), myvector.begin() + 3)\n";
+	myvector.insert(myvector.begin(), myvector.begin(), myvector.begin() + 3);
+	printAttributes(myvector);
+
 	cout << "rezise(5)\n";
 	myvector.resize(5);
 	printAttributes(myvector);
@@ -107,8 +111,8 @@ int main()
 	printAttributes(other);
 
 	cout << "\nELEMENT ACCES:\n";
-	cout << "ft_myvector.at(3) -> " << myvector.at(3) << "\n";
-	cout << "ft_myvector.at(out of renge exception in try catch) -> \n";
+	cout << "mymyvector.at(3) -> " << myvector.at(3) << "\n";
+	cout << "mymyvector.at(out of renge exception in try catch) -> \n";
 	try
 	{
 		myvector.at(myvector.size());
@@ -117,10 +121,10 @@ int main()
 	{
 		cout << e.what() << '\n';
 	}
-	cout << "ft_vector[3] -> " << myvector[3] << "\n";
-	cout << "ft_vector.front() -> " << myvector.front() << "\n";
-	cout << "ft_vector.back() -> " << myvector.back() << "\n";
-	cout << "ft_vector.data() -> " << myvector.data() << "\n";
+	cout << "myvector[3] -> " << myvector[3] << "\n";
+	cout << "myvector.front() -> " << myvector.front() << "\n";
+	cout << "myvector.back() -> " << myvector.back() << "\n";
+	cout << "myvector.data() -> " << myvector.data() << "\n";
 
 	cout << "\nNON-MEMBER FUNCTIONS:\n";
 	cout << "myvector == other -> " << (myvector == other) << "\n";
@@ -142,7 +146,7 @@ int main()
 	printAttributes(other);
 
 	cout << "\nPERFORMANCE:\n";
-	for(int i = 0; i < 15000; i++)
+	for(int i = 0; i < 150000; i++)
 		myvector.push_back(i);
 	printAttributes(myvector);
 

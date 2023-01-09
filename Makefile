@@ -72,13 +72,13 @@ $(VECTOR) : tests/vector_test.o
 $(FT_STACK) : tests/ft_stack_test.o
 			echo "$(RED)Compiling ft_stack...			⏳$(WHITE)"
 			$(CXX) ${CPPFLAGS} tests/ft_stack_test.o -o $(FT_STACK)
-$(STACK) : tests/stack_test.o
+$(STACK) : tests/stack_test.o.
 			echo "$(RED)Compiling stack...			⏳$(WHITE)"
 			$(CXX) ${CPPFLAGS} tests/stack_test.o -o $(STACK)
 
 $(FT_MAP) : tests/ft_map_test.o
 			echo "$(RED)Compiling ft_map...			⏳$(WHITE)"
-			$(CXX) ${CPPFLAGS} tests/ft_map_test.o -o $(FT_MAP)
+			$(CXX) ${CPPFLAGS} ${SFLAGS} tests/ft_map_test.o -o $(FT_MAP)
 $(MAP) : tests/map_test.o
 			echo "$(RED)Compiling map...			⏳$(WHITE)"
 			$(CXX) ${CPPFLAGS} tests/map_test.o -o $(MAP)

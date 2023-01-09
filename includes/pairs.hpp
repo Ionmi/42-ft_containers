@@ -31,39 +31,41 @@ namespace ft
 
 	// MAKE PAIR
 	template <class T1, class T2>
-	ft::pair<T1, T2> make_pair(T1 x, T2 y)
+	pair<T1, T2> make_pair(T1 x, T2 y)
 	{
-		return ft::pair<T1, T2>(x, y);
+		return pair<T1, T2>(x, y);
 	}
 
 	// LEXICOGRAPHICALLY COMPARES
 	template <class T1, class T2>
-	bool operator==(const ft::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs)
+	bool operator==(const pair<T1, T2> &lhs, const pair<T1, T2> &rhs)
 	{
 		return lhs.first == rhs.first && lhs.second == rhs.second;
 	}
 	template <class T1, class T2>
-	bool operator!=(const ft::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs)
+	bool operator!=(const pair<T1, T2> &lhs, const pair<T1, T2> &rhs)
 	{
 		return !(lhs == rhs);
 	}
 	template <class T1, class T2>
-	bool operator<(const ft::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs)
+	bool operator<(const pair<T1, T2> &lhs, const pair<T1, T2> &rhs)
 	{
 		return lhs.first < rhs.first || (!(rhs.first < lhs.first) && lhs.second < rhs.second);
 	}
 	template <class T1, class T2>
-	bool operator<=(const ft::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs)
+	bool operator<=(const pair<T1, T2> &lhs, const pair<T1, T2> &rhs)
 	{
-		return !(rhs < lhs);
+		if(rhs < lhs)
+			return true;
+		return rhs == lhs;
 	}
 	template <class T1, class T2>
-	bool operator>(const ft::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs)
+	bool operator>(const pair<T1, T2> &lhs, const pair<T1, T2> &rhs)
 	{
-		return rhs < lhs;
+		return !(rhs <= lhs);
 	}
 	template <class T1, class T2>
-	bool operator>=(const ft::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs)
+	bool operator>=(const pair<T1, T2> &lhs, const pair<T1, T2> &rhs)
 	{
 		return !(lhs < rhs);
 	}

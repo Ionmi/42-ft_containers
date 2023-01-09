@@ -1,150 +1,133 @@
-#include "../includes/containers/vector.hpp"
+#include "../includes/containers/map.hpp"
 #include <iostream>
 
-using ft::vector;
+using ft::map;
 using std::cout;
 
-template <class T>
-void printAttributes(vector<T> myvector)
+template <class Key, class T>
+void printAttributes(map<Key, T> mymap)
 {
-	for (typename vector<T>::iterator it = myvector.begin(); it != myvector.end(); it++)
-		cout << *it << "\n";
+	for (typename map<Key, T>::iterator it = mymap.begin(); it != mymap.end(); it++)
+		cout << "key: " << it->first << ", value: " << it->second << "\n";
 	cout << "****************************\n";
-	cout << "size: " << myvector.size() << "\n";
-	cout << "campacity: " << myvector.capacity() << "\n";
-	cout << "max size: " << myvector.max_size() << "\n";
-	cout << "empty: " << (myvector.empty() == 1 ? "true" : "false") << "\n";
+	cout << "size: " << mymap.size() << "\n";
+	// cout << "max size: " << mymap.max_size() << "\n";
+	cout << "empty: " << (mymap.empty() == 1 ? "true" : "false") << "\n";
 	cout << "****************************\n";
 }
 
 int main()
 {
-	cout << "*****VECTOR TESTS*****\n";
-	typedef vector<int> intVector;
-	typedef vector<int>::iterator vectorIt;
-	typedef vector<int>::reverse_iterator rVectorIt;
+	cout << "*****MAP TESTS*****\n";
+	typedef map<int, int> intMap;
+	typedef map<int, int>::reverse_iterator rMapIt;
 
 	cout << "CONSTRUCTORS AND ITERATORS:\n";
 
-	intVector myvector;
-	cout << "operator= with fill constructor\n";
-	cout << "forward iterator\n";
-	myvector = vector<int>(5, 1);
-	printAttributes(myvector);
-	for (vectorIt it = myvector.begin(); it != myvector.end(); it++)
-		cout << *it << "\n";
-	{
-		cout << "copy constructor\n";
-		intVector vector2(myvector);
-		for (vectorIt it = vector2.begin(); it != vector2.end(); it++)
-			cout << *it << "\n";
-		printAttributes(vector2);
-	}
-	{
-		cout << "iterator constructor\n";
-		intVector vector2(myvector.begin(), myvector.end());
-		for (vectorIt it = vector2.begin(); it != vector2.end(); it++)
-			cout << *it << "\n";
-		printAttributes(vector2);
-	}
-	cout << "reverse iterator\n";
-	for (rVectorIt it = myvector.rbegin(); it != myvector.rend(); it++)
-		cout << *it << "\n";
+	intMap mymap;
 
 	cout << "\nMODIFIRS:\n";
-	cout << "assign inside uses myvector.clear()\n";
-	myvector.assign(5, 5);
-	printAttributes(myvector);
 
-	// array for testing iterator insert | clear
-	int myarray[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-	cout << "iterator assign inside uses myvector.clear()\n";
-	myvector.assign(myarray, myarray + 5);
-	printAttributes(myvector);
+	cout << "mymap.insert(make_pair(i, i))\n";
+	for (int i = 0; i < 5; i++)
+		mymap.insert(ft::make_pair(i, i));
+	printAttributes(mymap);
 
-	cout << "myvector.push_back() 10 times\n";
-	for (int i = 0; i < 10; i++)
-		myvector.push_back(i);
-	printAttributes(myvector);
+	cout << "mymap.insert(mymap.begin(), make_pair(i, i))\n";
+	for (int i = 5; i < 10; i++)
+		mymap.insert(mymap.begin(), ft::make_pair(i, i));
+	printAttributes(mymap);
 
-	cout << "myvector.pop_back() 15 times\n";
-	for (int i = 0; i < 10; i++)
-		myvector.pop_back();
-	printAttributes(myvector);
+	cout << "mymap.insert(mymap.begin(), mymap.end())\n";
+	mymap.insert(mymap.begin(), mymap.end());
+	printAttributes(mymap);
 
-	cout << "myvector.insert(myvector.begin(), 5)\n";
-	myvector.insert(myvector.begin(), 5);
-	cout << "myvector.insert(myvector.begin() + 1, 6)\n";
-	myvector.insert(myvector.begin() + 1, 6);
-	cout << "myvector.insert(myvector.end(), 7)\n";
-	myvector.insert(myvector.end(), 7);
-	printAttributes(myvector);
-
-	cout << "myvector.insert(myvector.begin(), 3, 5)\n";
-	myvector.insert(myvector.begin(), 3, 5);
-	cout << "myvector.insert(myvector.begin() + 1, 3, 6)\n";
-	myvector.insert(myvector.begin() + 1, 3, 6);
-	cout << "myvector.insert(myvector.end(), 3, 7)\n";
-	myvector.insert(myvector.end(), 3, 7);
-	printAttributes(myvector);
-
-	cout << "myvector.insert(myvector.begin(), myarray, myarray + 5)\n";
-	myvector.insert(myvector.begin(), myarray, myarray + 5);
-	cout << "myvector.insert(myvector.begin() + 1, myarray, myarray + 5)\n";
-	myvector.insert(myvector.begin() + 1, myarray, myarray + 5);
-	cout << "myvector.insert(myvector.end(), myarray, myarray + 5)\n";
-	myvector.insert(myvector.end(), myarray, myarray + 5);
-	printAttributes(myvector);
-
-	cout << "rezise(5)\n";
-	myvector.resize(5);
-	printAttributes(myvector);
+	{
+		cout << "operator=\n";
+		intMap other = mymap;
+		printAttributes(mymap);
+	}
+	cout << "copy cunstructor\n";
+	intMap other(mymap);
+	printAttributes(mymap);
+	{
+		cout << "iterator constructor\n";
+		intMap map2(mymap.begin(), mymap.end());
+		printAttributes(map2);
+	}
+	cout << "reverse iterator\n";
+	for (rMapIt it = mymap.rbegin(); it != mymap.rend(); it++)
+		cout << "key: " << it->first << ", value: " << it->second << "\n";
 
 	cout << "swap(other)\n";
-	intVector other(8, 8);
-	myvector.swap(other);
-	printAttributes(myvector);
+	mymap.swap(other);
+	printAttributes(mymap);
 	printAttributes(other);
 
+	cout << "mymap.clear()\n";
+	printAttributes(mymap);
+
+	cout << "mymap.insert(make_pair(i, i))\n";
+	for (int i = 0; i < 5; i++)
+		mymap.insert(ft::make_pair(i, i));
+	printAttributes(mymap);
+	cout << "mymap.erase(3)\n";
+	mymap.erase(3);
+	printAttributes(mymap);
+
+	cout << "mymap=other\n";
+	mymap = other;
+	printAttributes(mymap);
+
 	cout << "\nELEMENT ACCES:\n";
-	cout << "ft_myvector.at(3) -> " << myvector.at(3) << "\n";
-	cout << "ft_myvector.at(out of renge exception in try catch) -> \n";
+	cout << "mymap.at(3) -> " << mymap.at(3) << "\n";
+	cout << "mymap.at(out of renge exception in try catch) -> \n";
 	try
 	{
-		myvector.at(myvector.size());
+		mymap.at(-1);
 	}
 	catch (const std::exception &e)
 	{
 		cout << e.what() << '\n';
 	}
-	cout << "ft_vector[3] -> " << myvector[3] << "\n";
-	cout << "ft_vector.front() -> " << myvector.front() << "\n";
-	cout << "ft_vector.back() -> " << myvector.back() << "\n";
-	cout << "ft_vector.data() -> " << myvector.data() << "\n";
+	cout << "mymap[3] -> " << mymap[3] << "\n";
+	cout << "mymap[3] = 8 -> " << (mymap[3] = 8) << "\n";
+
+	cout << "\nLOOKUP:\n";
+	cout << "mymap.count(3) -> " << mymap.count(3) << "\n";
+	cout << "mymap.count(-1) -> " << mymap.count(-1) << "\n";
+	cout << "mymap.find(3)->first -> " << mymap.find(3)->first << "\n";
+	cout << "mymap.find(-1)->first -> " << mymap.find(-1)->first << "\n";
+	cout << "mymap.equal_range(3).first -> " << mymap.equal_range(3).first->first << "\n";
+	cout << "mymap.equal_range(-1).first -> " << mymap.equal_range(-1).first->first << "\n";
+	cout << "mymap.upper_bound(3)->first -> " << mymap.upper_bound(3)->first << "\n";
+	cout << "mymap.upper_bound(-1)->first -> " << mymap.upper_bound(-1)->first << "\n";
+	cout << "mymap.lower_bound(3)->first -> " << mymap.lower_bound(3)->first << "\n";
+	cout << "mymap.lower_bound(-1)->first -> " << mymap.lower_bound(-1)->first << "\n";
 
 	cout << "\nNON-MEMBER FUNCTIONS:\n";
-	cout << "myvector == other -> " << (myvector == other) << "\n";
-	cout << "myvector == myvector -> " << (myvector == myvector) << "\n";
-	cout << "myvector != other -> " << (myvector != other) << "\n";
-	cout << "myvector != myvector -> " << (myvector != myvector) << "\n";
-	cout << "myvector < other -> " << (myvector < other) << "\n";
-	cout << "myvector < myvector -> " << (myvector < myvector) << "\n";
-	cout << "myvector <= other -> " << (myvector <= other) << "\n";
-	cout << "myvector <= myvector -> " << (myvector <= myvector) << "\n";
-	cout << "myvector > other -> " << (myvector > other) << "\n";
-	cout << "myvector > myvector -> " << (myvector > myvector) << "\n";
-	cout << "myvector >= other -> " << (myvector >= other) << "\n";
-	cout << "myvector >= myvector -> " << (myvector >= myvector) << "\n";
+	cout << "mymap == other -> " << (mymap == other) << "\n";
+	cout << "mymap == mymap -> " << (mymap == mymap) << "\n";
+	cout << "mymap != other -> " << (mymap != other) << "\n";
+	cout << "mymap != mymap -> " << (mymap != mymap) << "\n";
+	cout << "mymap < other -> " << (mymap < other) << "\n";
+	cout << "mymap < mymap -> " << (mymap < mymap) << "\n";
+	cout << "mymap <= other -> " << (mymap <= other) << "\n";
+	cout << "mymap <= mymap -> " << (mymap <= mymap) << "\n";
+	cout << "mymap > other -> " << (mymap > other) << "\n";
+	cout << "mymap > mymap -> " << (mymap > mymap) << "\n";
+	cout << "mymap >= other -> " << (mymap >= other) << "\n";
+	cout << "mymap >= mymap -> " << (mymap >= mymap) << "\n";
 
-	cout << "swap(myvector, other)\n";
-	ft::swap(myvector, other);
-	printAttributes(myvector);
+	cout << "swap(mymap, other)\n";
+	ft::swap(mymap, other);
+	printAttributes(mymap);
 	printAttributes(other);
 
 	cout << "\nPERFORMANCE:\n";
-	for(int i = 0; i < 15000; i++)
-		myvector.push_back(i);
-	printAttributes(myvector);
+	for (int i = 0; i < 150000; i++)
+		mymap.insert(ft::make_pair(i, i));
+	printAttributes(mymap);
 
 	return 0;
 }
