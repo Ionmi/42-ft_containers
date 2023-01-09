@@ -11,7 +11,7 @@ void printAttributes(map<Key, T> mymap)
 		cout << "key: " << it->first << ", value: " << it->second << "\n";
 	cout << "****************************\n";
 	cout << "size: " << mymap.size() << "\n";
-	// cout << "max size: " << mymap.max_size() << "\n";
+	cout << "max size: " << mymap.max_size() << "\n";
 	cout << "empty: " << (mymap.empty() == 1 ? "true" : "false") << "\n";
 	cout << "****************************\n";
 }
@@ -99,7 +99,9 @@ int main()
 	cout << "mymap.find(3)->first -> " << mymap.find(3)->first << "\n";
 	cout << "mymap.find(-1)->first -> " << mymap.find(-1)->first << "\n";
 	cout << "mymap.equal_range(3).first -> " << mymap.equal_range(3).first->first << "\n";
+	cout << "mymap.equal_range(3).second -> " << mymap.equal_range(3).second->first << "\n";
 	cout << "mymap.equal_range(-1).first -> " << mymap.equal_range(-1).first->first << "\n";
+	cout << "mymap.equal_range(-1).second -> " << mymap.equal_range(-1).second->first << "\n";
 	cout << "mymap.upper_bound(3)->first -> " << mymap.upper_bound(3)->first << "\n";
 	cout << "mymap.upper_bound(-1)->first -> " << mymap.upper_bound(-1)->first << "\n";
 	cout << "mymap.lower_bound(3)->first -> " << mymap.lower_bound(3)->first << "\n";

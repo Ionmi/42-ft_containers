@@ -1,10 +1,4 @@
-# SRCS	= 	main.cpp					\
-			# tests/ft_vector_test.cpp	\
-			# tests/vector_test.cpp	\
-
 INCLUDES	= includes
-
-# OBJS	= ${SRCS:.cpp=.o}
 
 NAME	= ft_containers
 
@@ -37,10 +31,9 @@ SFLAGS	= -fsanitize=address -g3
 
 .SILENT:
 
-all: vector
-# $(NAME)
-# 		$(RM) $(NSNAME)
-# 		echo "$(GREEN)Compiled			✅$(WHITE)"
+all: $(FT_VECTOR) $(VECTOR) $(FT_STACK) $(STACK) $(FT_MAP) $(MAP) $(FT_SET) $(SET)
+		$(RM) $(NSNAME)
+		echo "$(GREEN)Compiled			✅$(WHITE)"
 
 ns: fclean $(NSNAME)
 		$(RM) $(NAME)
@@ -55,12 +48,8 @@ stack: $(FT_STACK) $(STACK)
 map: $(FT_MAP) $(MAP)
 		echo "$(GREEN)Compiled map tests...	✅$(WHITE)"
 
-# set: $(FT_SET) $(SET)
-# 		echo "$(GREEN)Compiled set tests...	✅$(WHITE)"
-
-# $(NAME) : $(OBJS) $(INCLUDES)
-# 			echo "$(RED)Compiling...			⏳$(WHITE)"
-# 			$(CXX) ${CPPFLAGS} ${SFLAGS} $(OBJS) -o $(NAME) -I $(INCLUDES)
+set: $(FT_SET) $(SET)
+		echo "$(GREEN)Compiled set tests...	✅$(WHITE)"
 
 $(FT_VECTOR) : tests/ft_vector_test.o
 			echo "$(RED)Compiling ft_vector...			⏳$(WHITE)"
@@ -72,16 +61,23 @@ $(VECTOR) : tests/vector_test.o
 $(FT_STACK) : tests/ft_stack_test.o
 			echo "$(RED)Compiling ft_stack...			⏳$(WHITE)"
 			$(CXX) ${CPPFLAGS} tests/ft_stack_test.o -o $(FT_STACK)
-$(STACK) : tests/stack_test.o.
+$(STACK) : tests/stack_test.o
 			echo "$(RED)Compiling stack...			⏳$(WHITE)"
 			$(CXX) ${CPPFLAGS} tests/stack_test.o -o $(STACK)
 
 $(FT_MAP) : tests/ft_map_test.o
 			echo "$(RED)Compiling ft_map...			⏳$(WHITE)"
-			$(CXX) ${CPPFLAGS} ${SFLAGS} tests/ft_map_test.o -o $(FT_MAP)
+			$(CXX) ${CPPFLAGS} tests/ft_map_test.o -o $(FT_MAP)
 $(MAP) : tests/map_test.o
 			echo "$(RED)Compiling map...			⏳$(WHITE)"
 			$(CXX) ${CPPFLAGS} tests/map_test.o -o $(MAP)
+
+$(FT_SET) : tests/ft_set_test.o
+			echo "$(RED)Compiling ft_set...			⏳$(WHITE)"
+			$(CXX) ${CPPFLAGS} tests/ft_set_test.o -o $(FT_SET)
+$(SET) : tests/set_test.o
+			echo "$(RED)Compiling set...			⏳$(WHITE)"
+			$(CXX) ${CPPFLAGS} tests/set_test.o -o $(SET)
 
 # %.o : %.cpp
 # 	$(CXX) ${CPPFLAGS} -c $< -o $@
@@ -109,6 +105,8 @@ fclean:
 		$(RM) $(SNAME)
 		echo "$(GREEN)Fclean done			✅$(WHITE)"
 
+clean_otps:
+	$(RM) *_test_output
 re:		fclean all
 
 run: 

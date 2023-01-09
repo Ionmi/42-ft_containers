@@ -139,7 +139,7 @@ namespace ft
 		size_type size() const { return _size; };
 		size_type max_size() const
 		{
-			return allocator.max_size() > rbTree.getMaxSize()
+			return allocator.max_size() < rbTree.getMaxSize()
 					   ? allocator.max_size()
 					   : rbTree.getMaxSize();
 		};
@@ -303,7 +303,6 @@ namespace ft
 	bool operator<=(const ft::map<Key, T, Compare, Alloc> &lhs,
 					const ft::map<Key, T, Compare, Alloc> &rhs)
 	{
-		// if (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()))
 		if (lhs < rhs)
 			return true;
 		return lhs == rhs;
@@ -312,16 +311,12 @@ namespace ft
 	bool operator>(const ft::map<Key, T, Compare, Alloc> &lhs,
 				   const ft::map<Key, T, Compare, Alloc> &rhs)
 	{
-		// return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 		return !(lhs <= rhs);
 	}
 	template <class Key, class T, class Compare, class Alloc>
 	bool operator>=(const ft::map<Key, T, Compare, Alloc> &lhs,
 					const ft::map<Key, T, Compare, Alloc> &rhs)
 	{
-		// if (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()))
-		// 	return true;
-		// return lhs == rhs;
 		return !(lhs < rhs);
 	}
 

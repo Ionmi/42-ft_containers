@@ -3,8 +3,10 @@
 
 #include <iostream>
 #include "../pairs.hpp"
+#include "../compares.hpp"
 #include "../RedBlackTree.hpp"
 #include "../iterators/set_iterator.hpp"
+#include "../iterators/reverse_iterator.hpp"
 
 namespace ft
 {
@@ -30,8 +32,8 @@ namespace ft
 		typedef typename ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
 	private:
-		typedef rbt::RBT<Key, value_type, Compare> RBtree;
-		typedef rbt::RBnode<key_type, value_type> *nodePtr;
+		typedef ft::rbt::RBT<Key, value_type, Compare> RBtree;
+		typedef ft::rbt::RBnode<key_type, value_type> *nodePtr;
 
 		RBtree rbTree;
 		size_type _size;
@@ -52,7 +54,7 @@ namespace ft
 		// CONSTRUCTORS
 
 		// empty(1)
-		explicit set(const Compare &comp, const Allocator &alloc = Allocator())
+		explicit set(const Compare &comp = key_compare(), const Allocator &alloc = Allocator())
 			: _size(0), compare(comp), allocator(alloc) {}
 
 		// range (2)
@@ -60,8 +62,6 @@ namespace ft
 		set(InputIterator first, InputIterator last, const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type())
 			: _size(0), compare(comp), allocator(alloc)
 		{
-			if (first > last)
-				throw std::length_error("ft::set");
 			for (; first != last; ++first)
 				insert(*first);
 		}
@@ -76,8 +76,7 @@ namespace ft
 		{
 			if (this == &x)
 				return *this;
-			rbTree.clear();
-			_size = x._size;
+			clear();
 			for (const_iterator it = x.begin(); it != x.end(); ++it)
 				insert(*it);
 			return *this;
@@ -103,7 +102,7 @@ namespace ft
 		size_type size() const { return _size; };
 		size_type max_size() const
 		{
-			return allocator.max_size() > rbTree.getMaxSize()
+			return allocator.max_size() < rbTree.getMaxSize()
 					   ? allocator.max_size()
 					   : rbTree.getMaxSize();
 		};
@@ -117,7 +116,7 @@ namespace ft
 		// single element (1)
 		pair<iterator, bool> insert(const value_type &val)
 		{
-			nodePtr node = rbTree.getNode(val.first);
+			nodePtr node = rbTree.getNode(val);
 			if (node != nullptr)
 				return ft::make_pair(iterator(node), false);
 
@@ -129,7 +128,7 @@ namespace ft
 		iterator insert(iterator position, const value_type &val)
 		{
 			(void)position;
-			return insert(val);
+			return insert(val).first;
 		}
 		// range (3)
 		template <class InputIterator>
@@ -137,20 +136,19 @@ namespace ft
 		{
 			if (first == last)
 				return;
-			if (first > last)
-				throw std::out_of_range("ft::set");
 			for (; first != last; ++first)
 				insert(*first);
 		}
 
 		// erase (1)
-		void erase(iterator position) { rbTree.remove(*position); }
+		void erase(iterator position) { erase(*position); }
 		// erase (2)
 		size_type erase(const key_type &key)
 		{
 			if (rbTree.find(key) == NULL)
 				return 0;
 			rbTree.remove(key);
+			_size--;
 			return 1;
 		}
 		// erase (3)
@@ -158,10 +156,8 @@ namespace ft
 		{
 			if (first == last)
 				return;
-			if (first > last)
-				throw std::out_of_range("ft::set");
 			for (; first != last; ++first)
-				rbTree.remove(*first);
+				erase(*first);
 		}
 
 		void swap(set &x)
@@ -182,22 +178,22 @@ namespace ft
 		size_type count(const Key &key) const
 		{
 			nodePtr node = rbTree.getNode(key);
-			if (node != nullptr)
+			if (node == nullptr)
 				return 0;
 			return 1;
 		}
 		iterator find(const Key &key)
 		{
 			nodePtr node = rbTree.getNode(key);
-			if (node != nullptr)
-				end();
+			if (node == nullptr)
+				return end();
 			return iterator(node);
 		}
 		const_iterator find(const Key &key) const
 		{
 			nodePtr node = rbTree.getNode(key);
-			if (node != nullptr)
-				end();
+			if (node == nullptr)
+				return end();
 			return const_iterator(node);
 		}
 		iterator lower_bound(const key_type &key)
@@ -205,7 +201,7 @@ namespace ft
 			iterator it = begin();
 			for (; it != end(); it++)
 				if (!compare(*it, key))
-					return it == begin() ? end() : --it;
+					return it == begin() ? end() : it;
 			return end();
 		}
 		const_iterator lower_bound(const key_type &key) const
@@ -213,14 +209,14 @@ namespace ft
 			const_iterator it = begin();
 			for (; it != end(); it++)
 				if (!compare(*it, key))
-					return it == begin() ? end() : --it;
+					return it == begin() ? end() : it;
 			return end();
 		}
 		iterator upper_bound(const key_type &key)
 		{
 			iterator it = begin();
 			for (; it != end(); it++)
-				if (!compare(*it, key))
+				if (compare(key, *it))
 					return it;
 			return end();
 		}
@@ -228,7 +224,7 @@ namespace ft
 		{
 			const_iterator it = begin();
 			for (; it != end(); it++)
-				if (!compare(*it, key))
+				if (compare(key, *it))
 					return it;
 			return end();
 		}
@@ -278,15 +274,13 @@ namespace ft
 	bool operator>(const ft::set<Key, Compare, Alloc> &lhs,
 				   const ft::set<Key, Compare, Alloc> &rhs)
 	{
-		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), std::greater<T>());
+		return !(lhs <= rhs);
 	}
 	template <class Key, class Compare, class Alloc>
 	bool operator>=(const ft::set<Key, Compare, Alloc> &lhs,
 					const ft::set<Key, Compare, Alloc> &rhs)
 	{
-		if (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), std::greater<T>()))
-			return true;
-		return lhs == rhs;
+		return !(lhs < rhs);
 	}
 
 	// SWAP
