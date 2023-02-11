@@ -52,31 +52,31 @@ set: $(FT_SET) $(SET)
 		echo "$(GREEN)Compiled set tests...	✅$(WHITE)"
 
 $(FT_VECTOR) : tests/ft_vector_test.o
-			echo "$(RED)Compiling ft_vector...			⏳$(WHITE)"
+			echo "$(RED)Compiling ft_vector...		⏳$(WHITE)"
 			$(CXX) ${CPPFLAGS} tests/ft_vector_test.o -o $(FT_VECTOR)
 $(VECTOR) : tests/vector_test.o
-			echo "$(RED)Compiling vector...			⏳$(WHITE)"
+			echo "$(RED)Compiling vector...		⏳$(WHITE)"
 			$(CXX) ${CPPFLAGS} tests/vector_test.o -o $(VECTOR)
 
 $(FT_STACK) : tests/ft_stack_test.o
-			echo "$(RED)Compiling ft_stack...			⏳$(WHITE)"
+			echo "$(RED)Compiling ft_stack...		⏳$(WHITE)"
 			$(CXX) ${CPPFLAGS} tests/ft_stack_test.o -o $(FT_STACK)
 $(STACK) : tests/stack_test.o
-			echo "$(RED)Compiling stack...			⏳$(WHITE)"
+			echo "$(RED)Compiling stack...		⏳$(WHITE)"
 			$(CXX) ${CPPFLAGS} tests/stack_test.o -o $(STACK)
 
 $(FT_MAP) : tests/ft_map_test.o
-			echo "$(RED)Compiling ft_map...			⏳$(WHITE)"
+			echo "$(RED)Compiling ft_map...		⏳$(WHITE)"
 			$(CXX) ${CPPFLAGS} tests/ft_map_test.o -o $(FT_MAP)
 $(MAP) : tests/map_test.o
-			echo "$(RED)Compiling map...			⏳$(WHITE)"
+			echo "$(RED)Compiling map...		⏳$(WHITE)"
 			$(CXX) ${CPPFLAGS} tests/map_test.o -o $(MAP)
 
 $(FT_SET) : tests/ft_set_test.o
-			echo "$(RED)Compiling ft_set...			⏳$(WHITE)"
+			echo "$(RED)Compiling ft_set...		⏳$(WHITE)"
 			$(CXX) ${CPPFLAGS} tests/ft_set_test.o -o $(FT_SET)
 $(SET) : tests/set_test.o
-			echo "$(RED)Compiling set...			⏳$(WHITE)"
+			echo "$(RED)Compiling set...		⏳$(WHITE)"
 			$(CXX) ${CPPFLAGS} tests/set_test.o -o $(SET)
 
 # %.o : %.cpp
